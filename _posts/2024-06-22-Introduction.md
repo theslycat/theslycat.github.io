@@ -10,6 +10,6 @@ decription: Brief introduction of this little blog.
 ```shell
 whoami
 ```
-我是一个一个一个一个高中生，喜欢研究编程和各种有趣的恶意软件（好吧有时候没那么有趣）。愿望是通过deeeeeep的探索给自己和读者带来快乐！！！
+我是一个一个一个一个高中生，喜欢研究编程和各种有趣的怪东西（好吧有时候没那么有趣）。愿望是通过deeeeeep的探索给自己和读者带来快乐！！！
 
 
