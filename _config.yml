@@ -16,7 +16,7 @@ timezone:
 
 title: theslycat's little cozy room # the main title
 
-tagline: 嘿，你喜欢这里嘛？ # it will display as the sub-title
+tagline: 嘿，你喜欢这里嘛？我们来做朋友叭！！ # it will display as the sub-title
 
 description: >- # used by seo meta and the atom feed
   Sharing interesting coding/malware stuff.
@@ -96,7 +96,7 @@ theme_mode: dark
 cdn:
 
 # the avatar on sidebar, support local or CORS resources
-avatar:
+avatar: https://avatarfiles.alphacoders.com/374/thumb-1920-374444.png
 
 # The URL of the site-wide social preview image used in SEO `og:image` meta tag.
 # It can be overridden by a customized `page.image` in front matter.
