@@ -14,5 +14,4 @@ description: 这个站是谁、用什么做的、怎么联系。
 - 尝试学习方言/二外中?
 
 ## 联系方式
-- 微信/电话：+86 18520631176
-- 个人邮箱：brucesec@163.com / happysaltPri@proton.me
+- 个人邮箱: happysaltPri@proton.me
