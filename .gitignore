@@ -1,26 +1,27 @@
-# Bundler cache
-.bundle
-vendor
-Gemfile.lock
+# 依赖
+node_modules/
 
-# Jekyll cache
-.jekyll-cache
-.jekyll-metadata
-_site
+# 日志
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
-# RubyGems
-*.gem
+# 环境变量
+.env
+.env.production
 
-# NPM dependencies
-node_modules
-package-lock.json
-
-# IDE configurations
+# 编辑器 / 系统
 .idea
 .vscode
-!.vscode/settings.json
-!.vscode/extensions.json
+.DS_Store
+Thumbs.db
 
-# Misc
-_sass/dist
-assets/js/dist
+# WorkBuddy 本地工作记录（不进仓库）
+.workbuddy/
+
+# 备用产物目录（改用 gh-pages 分支发布时才用得到）
+dist/
+
+# 安全删除产生的回收站目录
+.Trash-*/

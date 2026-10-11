@@ -1,0 +1,26 @@
+# 不负责发布，只负责在每次 push 时验证「源码能构建」。
+# 真正的发布是本地 npm run build 之后把 docs/ 提交上来，GitHub Pages 直接取 main 分支的 /docs。
+name: Build Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Check output
+        run: |
+          test -f docs/index.html || (echo "docs/index.html 没生成" && exit 1)
+          test -f docs/style.css || (echo "docs/style.css 没生成" && exit 1)

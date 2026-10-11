@@ -1,0 +1,21 @@
+{
+  "name": "theslycat-blog",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "极简像素风个人博客：Markdown → 静态 HTML，git push 即发布",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "fonts": "node scripts/fetch-fonts.mjs",
+    "serve": "node scripts/serve.mjs",
+    "clean": "node -e \"fs.rmSync('dist',{recursive:true,force:true})\""
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "gray-matter": "^4.0.3",
+    "highlight.js": "^11.10.0",
+    "markdown-it": "^14.1.0"
+  }
+}
