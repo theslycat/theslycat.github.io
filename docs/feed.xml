@@ -7,11 +7,27 @@
     <language>zh-CN</language>
     <atom:link href="https://theslycat.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <item>
+      <title>纳兰性德词两首</title>
+      <link>https://theslycat.github.io/posts/nalanxingde-read-1/</link>
+      <guid isPermaLink="true">https://theslycat.github.io/posts/nalanxingde-read-1/</guid>
+      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
+      <category>读书</category>
+      <description>读起读起</description>
+    </item>
+    <item>
+      <title>生病小记</title>
+      <link>https://theslycat.github.io/posts/sick/</link>
+      <guid isPermaLink="true">https://theslycat.github.io/posts/sick/</guid>
+      <pubDate>Thu, 15 Oct 2026 00:00:00 GMT</pubDate>
+      <category>碎碎念</category>
+      <description>上大学以来第一次生病，遂记录一下</description>
+    </item>
+    <item>
       <title>大学新手村思考🤔</title>
       <link>https://theslycat.github.io/posts/college-life-thoughts/</link>
       <guid isPermaLink="true">https://theslycat.github.io/posts/college-life-thoughts/</guid>
       <pubDate>Sun, 11 Oct 2026 00:00:00 GMT</pubDate>
-      
+      <category>碎碎念</category>
       <description>大一新生的自我总结和思考</description>
     </item>
   </channel>
