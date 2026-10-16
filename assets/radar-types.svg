@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 44" width="640" height="440" shape-rendering="crispEdges" role="img" aria-label="五类雷达对比">
+  <rect x="0" y="0" width="64" height="44" fill="#1b1b2b"/>
+
+  <!-- 标题 -->
+  <text x="2" y="4" fill="#f2e8d5" font-family="monospace" font-size="4">雷达类型对比</text>
+
+  <!-- 表头 -->
+  <text x="2" y="9" fill="#c98a12" font-family="monospace" font-size="3">类型</text>
+  <text x="20" y="9" fill="#c98a12" font-family="monospace" font-size="3">数据率</text>
+  <text x="38" y="9" fill="#c98a12" font-family="monospace" font-size="3">频段</text>
+
+  <!-- 警戒雷达 -->
+  <rect x="2" y="11" width="16" height="4" fill="#2e2e3e"/>
+  <text x="3" y="14" fill="#dfcfae" font-family="monospace" font-size="3">警戒引导</text>
+  <text x="20" y="14" fill="#8a9a4a" font-family="monospace" font-size="3">低(~10s)</text>
+  <text x="38" y="14" fill="#8a9a4a" font-family="monospace" font-size="3">L/S/P</text>
+
+  <!-- 侦查雷达 -->
+  <rect x="2" y="16" width="16" height="4" fill="#2e2e3e"/>
+  <text x="3" y="19" fill="#dfcfae" font-family="monospace" font-size="3">侦查</text>
+  <text x="20" y="19" fill="#8a9a4a" font-family="monospace" font-size="3">几乎无要求</text>
+  <text x="38" y="19" fill="#8a9a4a" font-family="monospace" font-size="3">C/X/KA/KU</text>
+
+  <!-- 武器控制雷达 -->
+  <rect x="2" y="21" width="16" height="4" fill="#2e2e3e"/>
+  <text x="3" y="24" fill="#dfcfae" font-family="monospace" font-size="3">武器控制</text>
+  <text x="20" y="24" fill="#c98a12" font-family="monospace" font-size="3">极高(亚秒级)</text>
+  <text x="38" y="24" fill="#c98a12" font-family="monospace" font-size="3">X/KA/KU</text>
+
+  <!-- 航行保障雷达 -->
+  <rect x="2" y="26" width="16" height="4" fill="#2e2e3e"/>
+  <text x="3" y="29" fill="#dfcfae" font-family="monospace" font-size="3">航行保障</text>
+  <text x="20" y="29" fill="#8a9a4a" font-family="monospace" font-size="3">—</text>
+  <text x="38" y="29" fill="#8a9a4a" font-family="monospace" font-size="3">—</text>
+
+  <!-- 气象雷达 -->
+  <rect x="2" y="31" width="16" height="4" fill="#2e2e3e"/>
+  <text x="3" y="34" fill="#dfcfae" font-family="monospace" font-size="3">气象</text>
+  <text x="20" y="34" fill="#8a9a4a" font-family="monospace" font-size="3">—</text>
+  <text x="38" y="34" fill="#8a9a4a" font-family="monospace" font-size="3">—</text>
+
+  <!-- 图例 -->
+  <rect x="2" y="39" width="2" height="1" fill="#c98a12"/>
+  <text x="6" y="40" fill="#dfcfae" font-family="monospace" font-size="3">高数据率 / 高频段</text>
+  <rect x="2" y="42" width="2" height="1" fill="#8a9a4a"/>
+  <text x="6" y="43" fill="#dfcfae" font-family="monospace" font-size="3">低数据率 / 低频段</text>
+</svg>

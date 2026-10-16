@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 48" width="640" height="480" shape-rendering="crispEdges" role="img" aria-label="雷达搭载平台高度谱">
+  <rect x="0" y="0" width="64" height="48" fill="#1b1b2b"/>
+
+  <!-- 标题 -->
+  <text x="2" y="4" fill="#f2e8d5" font-family="monospace" font-size="4">搭载平台高度谱（示意，非等比）</text>
+
+  <!-- 高度坐标轴 -->
+  <rect x="12" y="6" width="1" height="38" fill="#6b5844"/>
+
+  <!-- 卫星（~770km 军事情报） -->
+  <rect x="14" y="6" width="1" height="1" fill="#f2e8d5"/>
+  <rect x="15" y="5" width="2" height="2" fill="#dfcfae"/>
+  <rect x="14" y="4" width="4" height="1" fill="#dfcfae"/>
+  <rect x="17" y="3" width="1" height="1" fill="#dfcfae"/>
+  <text x="20" y="6" fill="#8a9a4a" font-family="monospace" font-size="3">卫星 情报/测绘 ~770km</text>
+  <text x="20" y="9" fill="#6b5844" font-family="monospace" font-size="3">导航卫星 &gt;20000km</text>
+
+  <!-- 飞艇（平流层 ~25000m） -->
+  <rect x="14" y="14" width="1" height="1" fill="#f2e8d5"/>
+  <rect x="15" y="12" width="6" height="4" fill="#c98a12"/>
+  <rect x="16" y="16" width="1" height="2" fill="#6b5844"/>
+  <text x="24" y="14" fill="#8a9a4a" font-family="monospace" font-size="3">飞艇 ~25000m</text>
+  <text x="24" y="17" fill="#6b5844" font-family="monospace" font-size="3">载重200t / 数月滞空</text>
+
+  <!-- 飞机（机载） -->
+  <rect x="14" y="22" width="1" height="1" fill="#f2e8d5"/>
+  <rect x="15" y="20" width="5" height="2" fill="#dfcfae"/>
+  <rect x="16" y="19" width="2" height="1" fill="#dfcfae"/>
+  <text x="23" y="22" fill="#8a9a4a" font-family="monospace" font-size="3">机载（预警机）</text>
+
+  <!-- 地面（天波超视距） -->
+  <rect x="14" y="30" width="1" height="1" fill="#f2e8d5"/>
+  <rect x="15" y="30" width="8" height="3" fill="#8a9a4a"/>
+  <rect x="16" y="29" width="1" height="1" fill="#c98a12"/>
+  <rect x="20" y="29" width="1" height="1" fill="#c98a12"/>
+  <text x="26" y="32" fill="#8a9a4a" font-family="monospace" font-size="3">地面 天波超视距</text>
+
+  <!-- 舰船 -->
+  <rect x="14" y="36" width="1" height="1" fill="#f2e8d5"/>
+  <rect x="15" y="36" width="7" height="3" fill="#3f7d55"/>
+  <rect x="17" y="35" width="1" height="1" fill="#c98a12"/>
+  <text x="26" y="38" fill="#8a9a4a" font-family="monospace" font-size="3">舰船（宙斯盾/近防）</text>
+
+  <!-- 导弹末段 -->
+  <rect x="14" y="42" width="1" height="1" fill="#f2e8d5"/>
+  <rect x="15" y="41" width="1" height="2" fill="#c98a12"/>
+  <rect x="16" y="40" width="2" height="1" fill="#c98a12"/>
+  <text x="20" y="42" fill="#c98a12" font-family="monospace" font-size="3">导弹导引头（末段数公里）</text>
+</svg>
