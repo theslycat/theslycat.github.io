@@ -121,6 +121,39 @@ function readingTime(text) {
   return Math.max(1, Math.round(cjk / 400 + words / 220));
 }
 
+/**
+ * 独立的 HTML 块级标签行（<h4>…</h4>、<img …> 等）之后如果紧跟正文，
+ * CommonMark 会把正文当作 HTML 块的延续原样吐出来，加粗/链接/列表/表格全部失效。
+ * 这里在"整行只有一个块级元素"且下一行非空时补一个空行。代码围栏内不处理。
+ */
+function splitHtmlBlocks(content) {
+  const TAGS =
+    'h1|h2|h3|h4|h5|h6|p|div|span|ul|ol|li|dl|dt|dd|table|thead|tbody|tfoot|tr|td|th|blockquote|pre|figure|figcaption|section|article|aside|header|footer|nav|main|details|summary|img|hr|br|iframe|video|audio|canvas|svg|form|input|button|label|select|textarea';
+  // 整行一个开标签或自闭合/空元素：<img …>、<div>、<br/>
+  const openRe = new RegExp(`^<(?:${TAGS})\\b[^>]*?/?>$`, 'i');
+  // 整行一个完整元素（无嵌套）：<h4 id="x">标题</h4>
+  const pairedRe = new RegExp(`^<(${TAGS})\\b[^>]*>[^<]*</\\1>$`, 'i');
+  // 整行一个闭标签：</h4>
+  const closeRe = new RegExp(`^</(?:${TAGS})>$`, 'i');
+  const lines = content.split('\n');
+  const out = [];
+  let inFence = false;
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    out.push(line);
+    if (/^\s*(?:```|~~~)/.test(line)) {
+      inFence = !inFence;
+      continue;
+    }
+    if (inFence) continue;
+    const t = line.trim();
+    if ((openRe.test(t) || pairedRe.test(t) || closeRe.test(t)) && (lines[i + 1] ?? '').trim() !== '') {
+      out.push('');
+    }
+  }
+  return out.join('\n');
+}
+
 async function loadPosts(dir, prefix) {
   const files = await walk(dir);
   const posts = [];
@@ -136,7 +169,7 @@ async function loadPosts(dir, prefix) {
       fm.slug ||
       base.replace(/^\d{4}-\d{2}-\d{2}-/, '').replace(/[^a-zA-Z0-9\-_一-龥]/g, '-');
     const date = parseDate(fm, file, stat);
-    const html = normalizeAssets(md.render(content));
+    const html = normalizeAssets(md.render(splitHtmlBlocks(content)));
     const plain = stripTags(html);
     const title =
       fm.title ||
@@ -170,7 +203,7 @@ async function loadPages(dir) {
     pages.push({
       title: fm.title || slug,
       description: fm.description || '',
-      html: normalizeAssets(md.render(content)),
+      html: normalizeAssets(md.render(splitHtmlBlocks(content))),
       permalink: `/${slug}/`,
       slug,
     });

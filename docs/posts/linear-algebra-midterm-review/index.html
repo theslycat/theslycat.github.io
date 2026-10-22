@@ -80,7 +80,7 @@
 <h2 id="sec-02">第一部分 矩阵及其应用</h2>
 <h3 id="sec-03">1.1 高斯消元法</h3>
 <h4 id="sec-04">知识点</h4>
-线性代数要解决的核心问题：**解多元一次方程组**。以鸡兔同笼为例（头 14、腿 38）：
+<p>线性代数要解决的核心问题：<strong>解多元一次方程组</strong>。以鸡兔同笼为例（头 14、腿 38）：</p>
 <pre class="hljs"><code>x + y = 14       ①
 2x + 4y = 38     ②
 </code></pre>
@@ -94,20 +94,24 @@
 <p>只保留系数和常数项，就得到<strong>增广矩阵</strong>——把&quot;解方程&quot;变成&quot;变换矩阵&quot;。</p>
 <img src="/assets/linear-algebra/figures/augmented-matrix.svg" width="680" alt="方程组与增广矩阵">
 <h4 id="sec-05">几何直观</h4>
-🎬 [动画：高斯消元逐步演示](assets/linear-algebra/animations/gaussian-elimination.html) —— 逐步观察 `r₂ − 2r₁`、对调、倍乘如何把方程组变成"解直接读出"的最简形；每一步都标注了对应的变换类型。
+<p>🎬 <a href="/assets/linear-algebra/animations/gaussian-elimination.html">动画：高斯消元逐步演示</a> —— 逐步观察 <code>r₂ − 2r₁</code>、对调、倍乘如何把方程组变成&quot;解直接读出&quot;的最简形；每一步都标注了对应的变换类型。</p>
 <h4 id="sec-06">解题套路</h4>
-1. 写出增广矩阵；
-2. 自上而下：选主元（非零）→ 倍加消成 **行阶梯形**（零行在下方、首非零元前零的个数逐行增加）；
-3. 自下而上回代，或继续化成 **行最简形**（首非零元为 1 且所在列其它元为 0）；
-4. 主元列为基本未知量，无主元列取自由变量，写通解。
+<ol>
+<li>写出增广矩阵；</li>
+<li>自上而下：选主元（非零）→ 倍加消成 <strong>行阶梯形</strong>（零行在下方、首非零元前零的个数逐行增加）；</li>
+<li>自下而上回代，或继续化成 <strong>行最简形</strong>（首非零元为 1 且所在列其它元为 0）；</li>
+<li>主元列为基本未知量，无主元列取自由变量，写通解。</li>
+</ol>
 <h4 id="sec-07">易错点</h4>
-- 主元为 0 时**必须先换行**（用变换 1），不能除以 0。
-- 消元时**常数项也要同步运算**（容易只改系数忘改右端）。
-- "自由变量"的个数 = 未知量个数 − 秩；无穷多解时通解里必须保留自由参数 c。
+<ul>
+<li>主元为 0 时<strong>必须先换行</strong>（用变换 1），不能除以 0。</li>
+<li>消元时<strong>常数项也要同步运算</strong>（容易只改系数忘改右端）。</li>
+<li>&quot;自由变量&quot;的个数 = 未知量个数 − 秩；无穷多解时通解里必须保留自由参数 c。</li>
+</ul>
 <hr>
 <h3 id="sec-08">1.2 矩阵与特殊矩阵</h3>
 <h4 id="sec-09">知识点</h4>
-**定义**：m×n 个数排成 m 行 n 列，a_ij 为第 i 行第 j 列元，记 A = (a_ij)_{m×n}。
+<p><strong>定义</strong>：m×n 个数排成 m 行 n 列，a_ij 为第 i 行第 j 列元，记 A = (a_ij)_{m×n}。</p>
 <p><strong>特殊矩阵全家桶</strong>（考试常考&quot;判断归属&quot;）：</p>
 <table>
 <thead>
@@ -174,11 +178,13 @@
 <hr>
 <h3 id="sec-10">1.3 矩阵运算</h3>
 <h4 id="sec-11">1.3.1 线性运算（加法、数乘）</h4>
-- 加法：**只有同型矩阵才能加**，对应元素相加；满足交换律、结合律。
-- 数乘：λ(μA)=(λμ)A；(λ+μ)A=λA+μA；λ(A+B)=λA+λB。
-- 加法、减法、数乘合称**线性运算**。
+<ul>
+<li>加法：<strong>只有同型矩阵才能加</strong>，对应元素相加；满足交换律、结合律。</li>
+<li>数乘：λ(μA)=(λμ)A；(λ+μ)A=λA+μA；λ(A+B)=λA+λB。</li>
+<li>加法、减法、数乘合称<strong>线性运算</strong>。</li>
+</ul>
 <h4 id="sec-12">1.3.2 矩阵乘法 —— 本课程的灵魂</h4>
-**从线性变换导出**：设 x→y 是线性变换（yᵢ=Σa_ij x_j），t→x 是另一个线性变换，把后者代入前者就得到 t→y 的复合变换，其系数矩阵正是两个矩阵的**乘积**。
+<p><strong>从线性变换导出</strong>：设 x→y 是线性变换（yᵢ=Σa_ij x_j），t→x 是另一个线性变换，把后者代入前者就得到 t→y 的复合变换，其系数矩阵正是两个矩阵的<strong>乘积</strong>。</p>
 <blockquote>
 <p><strong>几何直观</strong>：矩阵乘法 = 变换的复合。A 的两个列向量就是基向量 e₁、e₂ 变换后的落点。</p>
 </blockquote>
@@ -196,7 +202,7 @@
 <li>幂与多项式：A^k = k 个 A 连乘；f(A)=a₀E+a₁A+…+aₘA^m（<strong>E 不能丢</strong>，同型才能相加）。同一矩阵的多项式之间<strong>可交换</strong>：f(A)g(A)=g(A)f(A)，但 f(A)g(B) 一般不可交换。</li>
 </ul>
 <h4 id="sec-13">1.3.3 转置</h4>
-行换成同序数的列。规律：(Aᵀ)ᵀ=A；(A+B)ᵀ=Aᵀ+Bᵀ；(λA)ᵀ=λAᵀ；**(AB)ᵀ=BᵀAᵀ（反序）**。
+<p>行换成同序数的列。规律：(Aᵀ)ᵀ=A；(A+B)ᵀ=Aᵀ+Bᵀ；(λA)ᵀ=λAᵀ；<strong>(AB)ᵀ=BᵀAᵀ（反序）</strong>。</p>
 <p><strong>对称阵</strong>（Aᵀ=A，充要条件 a_ij=a_ji）与<strong>反对称阵</strong>（Aᵀ=−A，充要条件 a_ij=−a_ji，对角线元必为 0）。</p>
 <blockquote>
 <p><strong>经典例题（例 8）</strong>：任一方阵可分解为一个对称阵与一个反对称阵之和：
@@ -204,11 +210,11 @@ A = (A+Aᵀ)/2 + (A−Aᵀ)/2，前者对称、后者反对称。</p>
 <p><strong>例 9（Householder 变换）</strong>：XᵀX=1 时，H=E−2XXᵀ 是对称阵且 HᵀH=E——这是 QR 分解与信号处理的常用工具。</p>
 </blockquote>
 <h4 id="sec-14">例题（课堂例 2，转置）</h4>
-已知 A、B，求 (AB)ᵀ。两种解法：先乘后转 / 先转后乘再反序——结果一致，后者更常用。
+<p>已知 A、B，求 (AB)ᵀ。两种解法：先乘后转 / 先转后乘再反序——结果一致，后者更常用。</p>
 <hr>
 <h3 id="sec-15">1.4 可逆矩阵</h3>
 <h4 id="sec-16">知识点</h4>
-**定义**：n 阶方阵 A，若存在 B 使 **AB=BA=E**，则 A 可逆，B 称为 A 的逆矩阵（记 A⁻¹）。
+<p><strong>定义</strong>：n 阶方阵 A，若存在 B 使 <strong>AB=BA=E</strong>，则 A 可逆，B 称为 A 的逆矩阵（记 A⁻¹）。</p>
 <ul>
 <li><strong>唯一性</strong>：设 B、C 都是逆，则 B=BE=B(AC)=(BA)C=EC=C。</li>
 <li><strong>2 阶公式（定理）</strong>：若 ad−bc≠0，则 [[a,b],[c,d]] 可逆，且
@@ -225,9 +231,9 @@ A = (A+Aᵀ)/2 + (A−Aᵀ)/2，前者对称、后者反对称。</p>
 <li>|A⁻¹| = 1/|A|</li>
 </ul>
 <h4 id="sec-17">几何直观</h4>
-🎬 [动画：逆矩阵 = 撤销变换](assets/linear-algebra/animations/inverse-undo.html) —— 先施加 A 把网格扭成平行四边形，再施加 A⁻¹ 精确复原（AA⁻¹=E）。当 det A=0 网格被压扁，**信息丢失、无法撤销**——这就是"奇异"的几何意义。
+<p>🎬 <a href="/assets/linear-algebra/animations/inverse-undo.html">动画：逆矩阵 = 撤销变换</a> —— 先施加 A 把网格扭成平行四边形，再施加 A⁻¹ 精确复原（AA⁻¹=E）。当 det A=0 网格被压扁，<strong>信息丢失、无法撤销</strong>——这就是&quot;奇异&quot;的几何意义。</p>
 <h4 id="sec-18">例题精讲</h4>
-**例 4（多项式法证可逆）**：设 n 阶矩阵 A 满足 A²−2A−4E=O，证明 A+2E 可逆并求其逆。
+<p><strong>例 4（多项式法证可逆）</strong>：设 n 阶矩阵 A 满足 A²−2A−4E=O，证明 A+2E 可逆并求其逆。</p>
 <pre class="hljs"><code>配方：A²−2A−4E = (A+2E)(A−4E) + 4E = O
 ⇒ (A+2E)(A−4E) = −4E
 ⇒ (A+2E)·[−(A−4E)/4] = E
@@ -243,13 +249,15 @@ A⁻¹+B⁻¹ = A⁻¹E+B⁻¹ = A⁻¹(BB⁻¹)+B⁻¹ = (A⁻¹B+E)B⁻¹ = A�
 </code></pre>
 <p>第二问用<strong>逆的唯一性</strong>：分别从左右两边凑，得到同一个 A⁻¹+B⁻¹ 的两种表达式，即得结论。</p>
 <h4 id="sec-19">易错点</h4>
-- 判断 B 是不是 A 的逆，必须验证 **AB=E 且 BA=E**（课堂交互常考；方阵情形 AB=E 即可，见 2.5 推论 1）。
-- (AB)⁻¹ 的顺序：**B⁻¹A⁻¹**，写反即错。
-- (A+B)⁻¹ ≠ A⁻¹+B⁻¹。
+<ul>
+<li>判断 B 是不是 A 的逆，必须验证 <strong>AB=E 且 BA=E</strong>（课堂交互常考；方阵情形 AB=E 即可，见 2.5 推论 1）。</li>
+<li>(AB)⁻¹ 的顺序：<strong>B⁻¹A⁻¹</strong>，写反即错。</li>
+<li>(A+B)⁻¹ ≠ A⁻¹+B⁻¹。</li>
+</ul>
 <hr>
 <h3 id="sec-20">1.5 分块矩阵</h3>
 <h4 id="sec-21">知识点</h4>
-用横竖线把矩阵分成子块，以子块为元素运算。**为什么学**：大型文件上传要分卷、家具要拆装、方舱医院要模块化——分块是"分而治之"。
+<p>用横竖线把矩阵分成子块，以子块为元素运算。<strong>为什么学</strong>：大型文件上传要分卷、家具要拆装、方舱医院要模块化——分块是&quot;分而治之&quot;。</p>
 <p><strong>运算规则（三条铁律）</strong>：</p>
 <ol>
 <li><strong>A+B</strong>：要求 A、B 的行、列<strong>分法相同</strong>；</li>
@@ -263,7 +271,7 @@ A⁻¹+B⁻¹ = A⁻¹E+B⁻¹ = A⁻¹(BB⁻¹)+B⁻¹ = (A⁻¹B+E)B⁻¹ = A�
 </ul>
 <p><strong>分块对角矩阵</strong>：主对角线上子块为方阵、其余全零。此时 |A|=各子块行列式之积；可逆 ⇔ 每个子块可逆。</p>
 <h4 id="sec-22">例题精讲</h4>
-**例 11（经典证明）**：A 为 m×n 矩阵，证明：对任意 n 维列向量 x，Ax=0 的充要条件是 A=O。
+<p><strong>例 11（经典证明）</strong>：A 为 m×n 矩阵，证明：对任意 n 维列向量 x，Ax=0 的充要条件是 A=O。</p>
 <pre class="hljs"><code>证明：充分性显然。必要性：把单位阵按列分块 E=(ε₁,ε₂,…,εₙ)
 A = AE = A(ε₁,…,εₙ) = (Aε₁,…,Aεₙ)
 由 x 的任意性，取 x=εᵢ 得 Aεᵢ=0
@@ -275,10 +283,12 @@ A = AE = A(ε₁,…,εₙ) = (Aε₁,…,Aεₙ)
 <hr>
 <h3 id="sec-23">1.6 初等变换与初等矩阵</h3>
 <h4 id="sec-24">知识点</h4>
-**三种初等行变换**（列变换对称）：
-1. 对调 i、j 两行：rᵢ ↔ rⱼ，记 **E(i,j)**；
-2. 第 i 行乘非零 k：rᵢ×k，记 **E(i(k))**；
-3. 第 j 行的 k 倍加到第 i 行：rᵢ+k·rⱼ，记 **E(i,j(k))**。
+<p><strong>三种初等行变换</strong>（列变换对称）：</p>
+<ol>
+<li>对调 i、j 两行：rᵢ ↔ rⱼ，记 <strong>E(i,j)</strong>；</li>
+<li>第 i 行乘非零 k：rᵢ×k，记 <strong>E(i(k))</strong>；</li>
+<li>第 j 行的 k 倍加到第 i 行：rᵢ+k·rⱼ，记 <strong>E(i,j(k))</strong>。</li>
+</ol>
 <p>逆变换仍是初等变换且<strong>类型相同</strong>：E(i,j)⁻¹=E(i,j)；E(i(k))⁻¹=E(i(1/k))；E(i,j(k))⁻¹=E(i,j(−k))。</p>
 <p><strong>行阶梯形 → 行最简形 → 标准形</strong>：</p>
 <ul>
@@ -296,19 +306,25 @@ A = AE = A(ε₁,…,εₙ) = (Aε₁,…,Aεₙ)
 </code></pre>
 <p>全程只能用<strong>行变换</strong>（对应左乘）；同理也可用列变换 <code>[[A],[E]] → [[E],[A⁻¹]]</code>。</p>
 <h4 id="sec-25">例题精讲</h4>
-**课堂交互（判断）**：
-- "若 A 可逆，则 A 一定可以经过初等变换得到 E" ⇒ **对**（定理 1.3 及其标准形推论）。
-- "若 A 可逆，则 A 一定可以经过初等**行**变换得到 E" ⇒ **对**（A=P₁⁻¹…Pₛ⁻¹，左乘一系列初等矩阵即可）。
+<p><strong>课堂交互（判断）</strong>：</p>
+<ul>
+<li>&quot;若 A 可逆，则 A 一定可以经过初等变换得到 E&quot; ⇒ <strong>对</strong>（定理 1.3 及其标准形推论）。</li>
+<li>&quot;若 A 可逆，则 A 一定可以经过初等<strong>行</strong>变换得到 E&quot; ⇒ <strong>对</strong>（A=P₁⁻¹…Pₛ⁻¹，左乘一系列初等矩阵即可）。</li>
+</ul>
 <p><strong>真题（2026 第 5-6 讲）</strong>：设 A 为 3 阶矩阵，将 A 的第二行加到第一行得 B，再将 B 的第一列的 −1 倍加到第二列得 C，记 P=[[1,1,0],[0,1,0],[0,0,1]]，则 C = ? ⇒ <strong>C = PAQ（答案 B）</strong>。行变换左乘 P，列变换右乘 Q。</p>
 <h4 id="sec-26">易错点</h4>
-- **行变换左乘、列变换右乘**，混用求逆时 (A,E)→(E,A⁻¹) 必须全程行变换。
-- 初等矩阵的逆是**同类型**（倍乘 k 的逆是倍乘 1/k，不是倍乘 −k）。
+<ul>
+<li><strong>行变换左乘、列变换右乘</strong>，混用求逆时 (A,E)→(E,A⁻¹) 必须全程行变换。</li>
+<li>初等矩阵的逆是<strong>同类型</strong>（倍乘 k 的逆是倍乘 1/k，不是倍乘 −k）。</li>
+</ul>
 <hr>
 <h3 id="sec-27">1.7 矩阵的秩</h3>
 <h4 id="sec-28">知识点</h4>
-**定义**（两个等价视角）：
-1. R(A) = 等价行阶梯形矩阵的**非零行数**；
-2. R(A) = A 的**最高阶非零子式**的阶数。
+<p><strong>定义</strong>（两个等价视角）：</p>
+<ol>
+<li>R(A) = 等价行阶梯形矩阵的<strong>非零行数</strong>；</li>
+<li>R(A) = A 的<strong>最高阶非零子式</strong>的阶数。</li>
+</ol>
 <p>初等变换<strong>不改变秩</strong>。</p>
 <p><strong>求法</strong>：初等行变换化行阶梯形 → 数非零行（最常用，&quot;此方法简单！&quot;）。</p>
 <p><strong>秩的 9 条性质</strong>：</p>
@@ -324,21 +340,25 @@ A = AE = A(ε₁,…,εₙ) = (Aε₁,…,Aεₙ)
 <li><strong>AB=O ⇒ R(A)+R(B) ≤ n</strong>。</li>
 </ol>
 <h4 id="sec-29">几何直观</h4>
-🎬 [动画：矩阵的秩 = 列空间维度](assets/linear-algebra/animations/rank-vis.html) —— 三列向量张开三维空间；当 α₃ 落进 α₁、α₂ 张成的平面，秩降为 2、det=0、矩阵奇异；三列共线时秩=1。
+<p>🎬 <a href="/assets/linear-algebra/animations/rank-vis.html">动画：矩阵的秩 = 列空间维度</a> —— 三列向量张开三维空间；当 α₃ 落进 α₁、α₂ 张成的平面，秩降为 2、det=0、矩阵奇异；三列共线时秩=1。</p>
 <h4 id="sec-30">例题精讲（参数讨论）</h4>
-求 n 阶方阵 A（主元 x、其余全 1）的秩：
-- x=1 时所有元素为 1 ⇒ **R(A)=1**；
-- x≠1 且 1+(n−1)x=0 ⇒ **R(A)=n−1**；
-- x≠1 且 1+(n−1)x≠0 ⇒ **R(A)=n**。
+<p>求 n 阶方阵 A（主元 x、其余全 1）的秩：</p>
+<ul>
+<li>x=1 时所有元素为 1 ⇒ <strong>R(A)=1</strong>；</li>
+<li>x≠1 且 1+(n−1)x=0 ⇒ <strong>R(A)=n−1</strong>；</li>
+<li>x≠1 且 1+(n−1)x≠0 ⇒ <strong>R(A)=n</strong>。</li>
+</ul>
 <p>方法：rⱼ−r₁ (j=2,…,n) 后 c₁+cⱼ (j=2,…,n)，化为爪型再判断。</p>
 <h4 id="sec-31">应用案例（课件背景）</h4>
-- **马尔科夫链**：每届国会选举结果只依赖上一届，x_{k+1}=Px_k；给定初值可迭代预测胜负。
-- **LDPC 编码**：校验矩阵 H 满足 Hcᵀ=0；5G_NR 基矩阵 BG1/BG2 由单位阵循环移位构成，k=22Z 信息位、n=68Z 码长。
+<ul>
+<li><strong>马尔科夫链</strong>：每届国会选举结果只依赖上一届，x_{k+1}=Px_k；给定初值可迭代预测胜负。</li>
+<li><strong>LDPC 编码</strong>：校验矩阵 H 满足 Hcᵀ=0；5G_NR 基矩阵 BG1/BG2 由单位阵循环移位构成，k=22Z 信息位、n=68Z 码长。</li>
+</ul>
 <hr>
 <h2 id="sec-32">第二部分 行列式</h2>
 <h3 id="sec-33">2.1 二阶与三阶行列式</h3>
 <h4 id="sec-34">知识点</h4>
-二元方程组消元得到 D=a₁₁a₂₂−a₁₂a₂₁。引进记号：
+<p>二元方程组消元得到 D=a₁₁a₂₂−a₁₂a₂₁。引进记号：</p>
 <pre class="hljs"><code>| a₁₁  a₁₂ |            | a  b |
 | a₂₁  a₂₂ |   = a·d − b·c
 </code></pre>
@@ -349,14 +369,18 @@ A = AE = A(ε₁,…,εₙ) = (Aε₁,…,Aεₙ)
 <p>⚠️ <strong>对角线法则只适用于 2、3 阶行列式</strong>，4 阶以上必须改用定义、性质或展开。</p>
 </blockquote>
 <h4 id="sec-35">例题</h4>
-- 例 3：用克拉默法则解三元一次方程组。
-- 例 4：解方程（把方程转化为 3 阶行列式 = 0）。
+<ul>
+<li>例 3：用克拉默法则解三元一次方程组。</li>
+<li>例 4：解方程（把方程转化为 3 阶行列式 = 0）。</li>
+</ul>
 <hr>
 <h3 id="sec-36">2.2 n 阶行列式：排列、逆序与对换</h3>
 <h4 id="sec-37">知识点</h4>
-- **n 元排列**：n 个不同正整数的有序数组；**逆序**：大数排在小数前面；**逆序数** τ = 各元素"前面比它大的数码个数"之和。
-- **奇排列 / 偶排列**：τ 为奇数 / 偶数。
-- **定理 1**：任意一次**对换改变排列的奇偶性**。推论：n 元排列与自然排列互变，对换次数与排列奇偶性一致。
+<ul>
+<li><strong>n 元排列</strong>：n 个不同正整数的有序数组；<strong>逆序</strong>：大数排在小数前面；<strong>逆序数</strong> τ = 各元素&quot;前面比它大的数码个数&quot;之和。</li>
+<li><strong>奇排列 / 偶排列</strong>：τ 为奇数 / 偶数。</li>
+<li><strong>定理 1</strong>：任意一次<strong>对换改变排列的奇偶性</strong>。推论：n 元排列与自然排列互变，对换次数与排列奇偶性一致。</li>
+</ul>
 <img src="/assets/linear-algebra/figures/inversion-permutation.svg" width="680" alt="排列与逆序">
 <p><strong>n 阶行列式定义</strong>：</p>
 <pre class="hljs"><code>|A| = Σ (−1)^τ(j₁j₂…jₙ) · a_{1j₁} a_{2j₂} … a_{njₙ}
@@ -370,24 +394,53 @@ A = AE = A(ε₁,…,εₙ) = (Aε₁,…,Aεₙ)
 </ul>
 <p><strong>定理 2.2 及推论</strong>：一般项也可对行标求和，符号为 (−1)^τ(i₁…iₙ)+τ(j₁…jₙ)。</p>
 <h4 id="sec-38">例题（真题）</h4>
-已知行列式，求 a₄₃a₅₂… 的系数（选项 −1 / 1 / 6 / −6）⇒ **−1**。含指定元素的项有两项，列标排列一奇一偶，正负抵消后剩 −1。
+<p>已知行列式，求 a₄₃a₅₂… 的系数（选项 −1 / 1 / 6 / −6）⇒ <strong>−1</strong>。含指定元素的项有两项，列标排列一奇一偶，正负抵消后剩 −1。</p>
 <hr>
 <h3 id="sec-39">2.3 行列式的性质</h3>
 <h4 id="sec-40">五大性质</h4>
-| 性质 | 内容 | 常用推论 |
-|---|---|---|
-| 1 | \|Aᵀ\|=\|A\|（行、列地位对称） | 对行成立的性质对列自动成立 |
-| 2 | 互换两行（列）**变号** | 两行（列）相同 ⇒ D=0 |
-| 3 | 某行（列）公因子可提出 | **\|kA\|=kⁿ\|A\|** |
-| 4 | 某行（列）为两数之和 ⇒ 拆两个行列式 | k 个数之和拆 k 个 |
-| 5 | 第 j 行（列）的 k 倍加到第 i 行（列），**值不变** | 两行（列）成比例 ⇒ D=0 |
+<table>
+<thead>
+<tr>
+<th>性质</th>
+<th>内容</th>
+<th>常用推论</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>|Aᵀ|=|A|（行、列地位对称）</td>
+<td>对行成立的性质对列自动成立</td>
+</tr>
+<tr>
+<td>2</td>
+<td>互换两行（列）<strong>变号</strong></td>
+<td>两行（列）相同 ⇒ D=0</td>
+</tr>
+<tr>
+<td>3</td>
+<td>某行（列）公因子可提出</td>
+<td><strong>|kA|=kⁿ|A|</strong></td>
+</tr>
+<tr>
+<td>4</td>
+<td>某行（列）为两数之和 ⇒ 拆两个行列式</td>
+<td>k 个数之和拆 k 个</td>
+</tr>
+<tr>
+<td>5</td>
+<td>第 j 行（列）的 k 倍加到第 i 行（列），<strong>值不变</strong></td>
+<td>两行（列）成比例 ⇒ D=0</td>
+</tr>
+</tbody>
+</table>
 <blockquote>
 <p>⚠️ <strong>推论 4 是重灾区</strong>：|kA|=kⁿ|A|，因为 k 要分别从 n 行提出来，不是 k|A|。</p>
 </blockquote>
 <h4 id="sec-41">几何直观</h4>
-🎬 [动画：行列式 = 有向面积](assets/linear-algebra/animations/determinant-area.html) —— 拖动两个向量：平行四边形面积 = |det|；橙向量**逆时针**转到蓝向量 det>0，顺时针 det<0；两向量共线 det=0（对应两行成比例为 0）。互换两行 = 交换两个向量 = 面积变号——性质 2 的几何原型。
+<p>🎬 <a href="/assets/linear-algebra/animations/determinant-area.html">动画：行列式 = 有向面积</a> —— 拖动两个向量：平行四边形面积 = |det|；橙向量<strong>逆时针</strong>转到蓝向量 det&gt;0，顺时针 det&lt;0；两向量共线 det=0（对应两行成比例为 0）。互换两行 = 交换两个向量 = 面积变号——性质 2 的几何原型。</p>
 <h4 id="sec-42">例题精讲</h4>
-**例 2（n 阶，主对角线 a、其余 b）**：Dₙ = **[a+(n−1)b](a−b)ⁿ⁻¹**
+<p><strong>例 2（n 阶，主对角线 a、其余 b）</strong>：Dₙ = <strong><a href="/assets/a%E2%88%92b">a+(n−1)b</a>ⁿ⁻¹</strong></p>
 <pre class="hljs"><code>第 2,3,…,n 列都加到第 1列 ⇒ 每行提出 a+(n−1)b
 第 2,3,…,n 行分别减第 1 行 ⇒ 化为上三角
 ⇒ Dₙ = [a+(n−1)b]·(a−b)ⁿ⁻¹
@@ -403,8 +456,10 @@ A = AE = A(ε₁,…,εₙ) = (Aε₁,…,Aεₙ)
 <hr>
 <h3 id="sec-43">2.4 按行（列）展开</h3>
 <h4 id="sec-44">知识点</h4>
-- **余子式** M_ij：划去 a_ij 所在的第 i 行第 j 列，余下元素按原次序构成的 n−1 阶行列式。
-- **代数余子式** A_ij = (−1)^{i+j}·M_ij。
+<ul>
+<li><strong>余子式</strong> M_ij：划去 a_ij 所在的第 i 行第 j 列，余下元素按原次序构成的 n−1 阶行列式。</li>
+<li><strong>代数余子式</strong> A_ij = (−1)^{i+j}·M_ij。</li>
+</ul>
 <img src="/assets/linear-algebra/figures/cofactor-checkerboard.svg" width="680" alt="代数余子式符号棋盘">
 <ul>
 <li><strong>定理 2.3（展开定理）</strong>：D = a_{i1}A_{i1}+…+a_{in}A_{in}（按行）；D = a_{1j}A_{1j}+…+a_{nj}A_{nj}（按列）。</li>
@@ -412,9 +467,9 @@ A = AE = A(ε₁,…,εₙ) = (Aε₁,…,Aεₙ)
 <li>两条定理合写：<strong>AA* = A*A = |A|E</strong>（A* 为伴随矩阵）。</li>
 </ul>
 <h4 id="sec-45">几何直观</h4>
-🎬 [动画：代数余子式展开](assets/linear-algebra/animations/cofactor-expansion.html) —— 点击任意元素，看它的行列被"划掉"、3 阶余子式如何计算、符号 (−1)^{i+j} 如何决定；按 0 最多的行展开最省力。内置教材例题（4 阶，答案 40 ✅）。
+<p>🎬 <a href="/assets/linear-algebra/animations/cofactor-expansion.html">动画：代数余子式展开</a> —— 点击任意元素，看它的行列被&quot;划掉&quot;、3 阶余子式如何计算、符号 (−1)^{i+j} 如何决定；按 0 最多的行展开最省力。内置教材例题（4 阶，答案 40 ✅）。</p>
 <h4 id="sec-46">例题精讲</h4>
-**例 2（三对角递推）**：主对角线 4、上次对角线 1、下次对角线 3：
+<p><strong>例 2（三对角递推）</strong>：主对角线 4、上次对角线 1、下次对角线 3：</p>
 <pre class="hljs"><code>Dₙ = |4 1        |
      |3 4 1      |
      |  3 4 1    |
@@ -439,7 +494,7 @@ A = AE = A(ε₁,…,εₙ) = (Aε₁,…,Aεₙ)
 <hr>
 <h3 id="sec-47">2.5 行列式的应用</h3>
 <h4 id="sec-48">知识点</h4>
-**伴随矩阵**：A\* 的元素 (j,i) 位置放 A_ij（注意**转置**排列）。
+<p><strong>伴随矩阵</strong>：A* 的元素 (j,i) 位置放 A_ij（注意<strong>转置</strong>排列）。</p>
 <p><strong>定理 2.5（可逆充要条件）</strong>：A 可逆 ⇔ <strong>|A|≠0</strong>，且 <strong>A⁻¹ = A*/|A|</strong>。</p>
 <ul>
 <li>|A|≠0 称非奇异（singular 的反义，Sylvester：&quot;how singular!&quot;）；|A|=0 称奇异。</li>
@@ -449,11 +504,13 @@ A = AE = A(ε₁,…,εₙ) = (Aε₁,…,Aεₙ)
 <p><strong>定理 2.6（克拉默法则）</strong>：n 个方程 n 个未知量且 D=|A|≠0 ⇒ 唯一解 x_j = D_j/D。
 <strong>定理 2.7</strong>：齐次方程组有非零解 ⇔ |A|=0。</p>
 <h4 id="sec-49">几何直观</h4>
-🎬 [动画：克拉默法则 · 面积之比就是解](assets/linear-algebra/animations/cramer.html) —— 拖动系数向量与 b，看 D、D₁、D₂ 三个平行四边形的面积比如何给出交点坐标；让 D→0 时两直线平行，法则失效。
+<p>🎬 <a href="/assets/linear-algebra/animations/cramer.html">动画：克拉默法则 · 面积之比就是解</a> —— 拖动系数向量与 b，看 D、D₁、D₂ 三个平行四边形的面积比如何给出交点坐标；让 D→0 时两直线平行，法则失效。</p>
 <h4 id="sec-50">例题精讲</h4>
-**例 8**：A 为三阶方阵，|A|=2：
-- |2A⁻¹| = 2³·|A|⁻¹ = 8/2 = **4**（⚠️ |kA|=kⁿ|A| 与 |A⁻¹|=1/|A| 合用）；
-- |A\*| = |A|^{n−1} = 2² = **4**。
+<p><strong>例 8</strong>：A 为三阶方阵，|A|=2：</p>
+<ul>
+<li>|2A⁻¹| = 2³·|A|⁻¹ = 8/2 = <strong>4</strong>（⚠️ |kA|=kⁿ|A| 与 |A⁻¹|=1/|A| 合用）；</li>
+<li>|A*| = |A|^{n−1} = 2² = <strong>4</strong>。</li>
+</ul>
 <p><strong>例 10（λ 讨论）</strong>：齐次方程组有非零解 ⇔ 系数行列式 = 0 ⇒ 因式分解得 <strong>λ=0、2 或 3</strong>。</p>
 <p><strong>例 11</strong>：D=0 时不能用克拉默法则，此时方程组<strong>无解或有无穷多解</strong>。</p>
 <hr>
@@ -462,14 +519,14 @@ A = AE = A(ε₁,…,εₙ) = (Aε₁,…,Aεₙ)
 <p>以下习题还原自 2.4「行列式应用」课堂习题页（图片中的公式已还原）；所有答案均经 sympy 复核 ✅。</p>
 </blockquote>
 <h3 id="sec-52">习题 1（性质 3 + 推论 4）</h3>
-**题目**：若 Dₙ=|a_ij|=2，则 D=|−a_ij| = ?
+<p><strong>题目</strong>：若 Dₙ=|a_ij|=2，则 D=|−a_ij| = ?</p>
 <p><strong>解</strong>：|−a_ij| 是每一行都提出 −1 共 n 行：
 D = (−1)ⁿ·|a_ij| = <strong>(−1)ⁿ·2</strong></p>
 <blockquote>
 <p>踩坑警示：只能提 n 个 −1，不是 1 个。</p>
 </blockquote>
 <h3 id="sec-53">习题 2（Vieta + 行列式）</h3>
-**题目**：若 x₁,x₂,x₃ 是方程 x³+px+q=0 的三个根，计算
+<p><strong>题目</strong>：若 x₁,x₂,x₃ 是方程 x³+px+q=0 的三个根，计算</p>
 <pre class="hljs"><code>| x₁  x₂  x₃ |
 | x₃  x₁  x₂ |
 | x₂  x₃  x₁ |
@@ -478,7 +535,7 @@ D = (−1)ⁿ·|a_ij| = <strong>(−1)ⁿ·2</strong></p>
 D = x₁³+x₂³+x₃³ − 3x₁x₂x₃ = (x₁+x₂+x₃)(x₁²+x₂²+x₃²−x₁x₂−x₂x₃−x₃x₁)
 由 Vieta：x₁+x₂+x₃ = 0 ⇒ <strong>D = 0</strong></p>
 <h3 id="sec-54">习题 4（分块反对角）</h3>
-**题目**：
+<p><strong>题目</strong>：</p>
 <img src="/assets/linear-algebra/figures/block-anti-diagonal.svg" width="680" alt="分块反对角行列式">
 <pre class="hljs"><code>| a₁  0   0   b₁ |
 | 0   a₂  b₂  0  |
@@ -488,7 +545,7 @@ D = x₁³+x₂³+x₃³ − 3x₁x₂x₃ = (x₁+x₂+x₃)(x₁²+x₂²+x₃
 <p><strong>解</strong>：按第一行展开：
 D = a₁·a₄(a₂a₃−b₂b₃) − b₁·b₄(a₂a₃−b₂b₃) = <strong>(a₁a₄−b₁b₄)(a₂a₃−b₂b₃)</strong> ✅</p>
 <h3 id="sec-55">习题 5（代数余子式组合）</h3>
-**题目**：D₄=|a b c d; c b d a; d b c a; a b d c|，求 A₁₄+A₂₄+A₃₄+A₄₄。
+<p><strong>题目</strong>：D₄=|a b c d; c b d a; d b c a; a b d c|，求 A₁₄+A₂₄+A₃₄+A₄₄。</p>
 <p><strong>解</strong>：把第 4 列换成全 1 列（a 的余子式组合 = 该列换掉后的行列式）：</p>
 <pre class="hljs"><code>| a b c 1 |
 | c b d 1 |
@@ -500,7 +557,7 @@ D = a₁·a₄(a₂a₃−b₂b₃) − b₁·b₄(a₂a₃−b₂b₃) = <stron
 <p>通法：Σk_i·A_{ij} = 把第 j 列换成 (k₁,…,kₙ)ᵀ 后的行列式。</p>
 </blockquote>
 <h3 id="sec-56">习题 8（隔行跳跃型）</h3>
-**题目**：
+<p><strong>题目</strong>：</p>
 <pre class="hljs"><code>| 0  x  0  y |
 | y  0  x  0 |
 | 0  y  0  x |
@@ -509,7 +566,7 @@ D = a₁·a₄(a₂a₃−b₂b₃) − b₁·b₄(a₂a₃−b₂b₃) = <stron
 <p><strong>解</strong>：列按 (1,3,2,4) 重排（一次交换，变号）后成分块 |0 B; C 0|，其中 B=C=[[x,y],[y,x]]：
 D = −|B||C| = −(x²−y²)² = <strong>−(x−y)²(x+y)²</strong> ✅</p>
 <h3 id="sec-57">习题 9（代数余子式组合 · 5 阶）</h3>
-**题目**：D₅ = |1 1 2 3 1; 3 −1 −1 2 2; 2 3 −1 −1 0; 1 2 3 0 1; −2 2 1 1 0|，其中 A_ij 是 a_ij 的代数余子式，求 A₁₅+3A₂₅+2A₃₅−2A₅₅。
+<p><strong>题目</strong>：D₅ = |1 1 2 3 1; 3 −1 −1 2 2; 2 3 −1 −1 0; 1 2 3 0 1; −2 2 1 1 0|，其中 A_ij 是 a_ij 的代数余子式，求 A₁₅+3A₂₅+2A₃₅−2A₅₅。</p>
 <p><strong>解</strong>：第 5 列换成 (1, 3, 2, <strong>0</strong>, −2)ᵀ（注意 A₄₅ 的系数是 0！）：</p>
 <pre class="hljs"><code>| 1 1 2 3  1 |
 | 3 −1 −1 2 3 |
@@ -522,18 +579,67 @@ D = −|B||C| = −(x²−y²)² = <strong>−(x−y)²(x+y)²</strong> ✅</p>
 <p>踩坑警示：组合里没有出现的 A₄₅，替换列的对应位置必须填 0，不能把 −2 重复填两处（笔者第一遍就算错在这里）。</p>
 </blockquote>
 <h3 id="sec-58">其它课件习题速查</h3>
-| 出处 | 题目 | 答案 |
-|---|---|---|
-| 2.1 投票 | 求 a₄₃a₅₂… 的系数 | **−1** |
-| 2.2 例 1 | 5 阶数值行列式 | **12** |
-| 2.2 例 2 | n 阶，对角 a 其余 b | **[a+(n−1)b](a−b)ⁿ⁻¹** |
-| 2.3 例 2 | 3-4-1 三对角 | **(3ⁿ⁺¹−1)/2** |
-| 2.3 例 5 | 分块 4 阶 | **−5** |
-| 2.3 例 6 | 4 阶数值 | **40** |
-| 2.3 例 7 | \|Aᵀ+Bᵀ\| | **56** |
-| 2.4 例 8 | \|A\|=2，三阶，求 \|2A⁻¹\| 与 \|A\*\| | **4 与 4** |
-| 2.4 例 10 | λ 为何值时齐次方程组有非零解 | **λ=0, 2, 3** |
-| 第 5-6 讲 真题 | 行变换+列变换 ⇒ C = | **PAQ** |
+<table>
+<thead>
+<tr>
+<th>出处</th>
+<th>题目</th>
+<th>答案</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2.1 投票</td>
+<td>求 a₄₃a₅₂… 的系数</td>
+<td><strong>−1</strong></td>
+</tr>
+<tr>
+<td>2.2 例 1</td>
+<td>5 阶数值行列式</td>
+<td><strong>12</strong></td>
+</tr>
+<tr>
+<td>2.2 例 2</td>
+<td>n 阶，对角 a 其余 b</td>
+<td><strong><a href="/assets/a%E2%88%92b">a+(n−1)b</a>ⁿ⁻¹</strong></td>
+</tr>
+<tr>
+<td>2.3 例 2</td>
+<td>3-4-1 三对角</td>
+<td><strong>(3ⁿ⁺¹−1)/2</strong></td>
+</tr>
+<tr>
+<td>2.3 例 5</td>
+<td>分块 4 阶</td>
+<td><strong>−5</strong></td>
+</tr>
+<tr>
+<td>2.3 例 6</td>
+<td>4 阶数值</td>
+<td><strong>40</strong></td>
+</tr>
+<tr>
+<td>2.3 例 7</td>
+<td>|Aᵀ+Bᵀ|</td>
+<td><strong>56</strong></td>
+</tr>
+<tr>
+<td>2.4 例 8</td>
+<td>|A|=2，三阶，求 |2A⁻¹| 与 |A*|</td>
+<td><strong>4 与 4</strong></td>
+</tr>
+<tr>
+<td>2.4 例 10</td>
+<td>λ 为何值时齐次方程组有非零解</td>
+<td><strong>λ=0, 2, 3</strong></td>
+</tr>
+<tr>
+<td>第 5-6 讲 真题</td>
+<td>行变换+列变换 ⇒ C =</td>
+<td><strong>PAQ</strong></td>
+</tr>
+</tbody>
+</table>
 <hr>
 <h2 id="sec-59">第四部分 易错点清单（期中最爱考的 25 条）</h2>
 <ol>
