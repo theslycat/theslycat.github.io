@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>行列式 = 有向面积 · 二阶行列式几何意义</title>
+<style>
+  :root{
+    --bg:#12151c; --panel:#1a1f29; --panel2:#222838; --line:#2e3646;
+    --txt:#e8ecf3; --dim:#9aa5b5; --acc:#6cb6ff; --acc2:#f0a35e; --ok:#7bd88f; --warn:#ff7b72;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;padding:20px;}
+  h1{font-size:18px;margin:0 0 4px}
+  .sub{color:var(--dim);font-size:13px;margin-bottom:14px}
+  .wrap{display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+  #ctl{flex:0 0 320px}
+  #view{flex:1;min-width:320px}
+  label{display:flex;justify-content:space-between;font-size:13px;color:var(--dim);margin:8px 0 2px}
+  label span{color:var(--acc);font-family:Consolas,monospace}
+  input[type=range]{width:100%;accent-color:#6cb6ff}
+  .btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+  button{background:var(--panel2);color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:7px 12px;font-size:13px;cursor:pointer}
+  button:hover{border-color:var(--acc);color:var(--acc)}
+  .formula{margin-top:16px;font-family:Consolas,monospace;font-size:15px;line-height:2;color:var(--dim);background:var(--panel2);border-radius:10px;padding:12px}
+  .formula b{color:var(--acc2);font-size:18px}
+  .hint{margin-top:12px;font-size:13px;color:var(--dim);line-height:1.7}
+  .hint em{color:var(--ok);font-style:normal}
+  svg{display:block;width:100%;height:auto;background:#0d1017;border-radius:10px;touch-action:none}
+</style>
+</head>
+<body>
+<h1>二阶行列式 = 平行四边形的<em>有向</em>面积</h1>
+<div class="sub">拖动橙、蓝两个向量的端点（或调节滑块）。若橙向量按逆时针方向转到蓝向量，面积为正；顺时针为负；共线时为 0。</div>
+<div class="wrap">
+  <div class="card" id="ctl">
+    <label>u = (a, b)　橙向量　<span id="vu">(1.0, 0.0)</span></label>
+    <input type="range" id="sa" min="-2.5" max="2.5" step="0.1" value="1">
+    <input type="range" id="sb" min="-2.5" max="2.5" step="0.1" value="0">
+    <label>v = (c, d)　蓝向量　<span id="vv">(0.0, 1.0)</span></label>
+    <input type="range" id="sc" min="-2.5" max="2.5" step="0.1" value="0">
+    <input type="range" id="sd" min="-2.5" max="2.5" step="0.1" value="1">
+    <div class="btns">
+      <button id="collapse">▶ 动画：让行列式趋于 0</button>
+      <button id="reset">重置</button>
+    </div>
+    <div class="formula">
+      det = | a b | = a·d − b·c<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| c d |<br>
+      当前 det = <b id="detv">1.0</b><br>
+      平行四边形面积 = |det| = <b id="areav">1.0</b>
+    </div>
+    <div class="hint" id="msg">橙向量逆时针转到蓝向量 ⇒ det &gt; 0。</div>
+  </div>
+  <div class="card" id="view">
+    <svg id="svg" viewBox="-170 -130 340 260"></svg>
+  </div>
+</div>
+
+<script>
+const S = 40;
+const svg = document.getElementById('svg');
+const NS = "http://www.w3.org/2000/svg";
+let u = [1,0], v = [0,1];
+let anim = null;
+
+function mk(tag, attrs, parent){
+  const e = document.createElementNS(NS, tag);
+  for(const k in attrs) e.setAttribute(k, attrs[k]);
+  (parent||svg).appendChild(e);
+  return e;
+}
+function setArrow(g, x1,y1,x2,y2, color){
+  g._line.setAttribute('x1',x1); g._line.setAttribute('y1',y1);
+  g._line.setAttribute('x2',x2); g._line.setAttribute('y2',y2);
+  const ang = Math.atan2(y2-y1, x2-x1), s = 9;
+  const p1=[x2,y2], p2=[x2-s*Math.cos(ang-0.42), y2-s*Math.sin(ang-0.42)], p3=[x2-s*Math.cos(ang+0.42), y2-s*Math.sin(ang+0.42)];
+  g._head.setAttribute('points', p1.join(',')+' '+p2.join(',')+' '+p3.join(','));
+}
+// 网格
+for(let i=-3;i<=3;i++){
+  mk('line',{x1:i*S,y1:-3*S,x2:i*S,y2:3*S,stroke:'#1b2230','stroke-width':1});
+  mk('line',{x1:-4*S,y1:i*S,x2:4*S,y2:i*S,stroke:'#1b2230','stroke-width':1});
+}
+mk('line',{x1:-160,y1:0,x2:160,y2:0,stroke:'#3a4658','stroke-width':1.5});
+mk('line',{x1:0,y1:-120,x2:0,y2:120,stroke:'#3a4658','stroke-width':1.5});
+const para = mk('polygon',{fill:'rgba(240,163,94,.16)',stroke:'#f0a35e','stroke-width':2,'stroke-dasharray':'6 4'});
+const eU = mk('g',{}); eU._line = mk('line',{stroke:'#f0a35e','stroke-width':3.5,'stroke-linecap':'round'},eU); eU._head = mk('polygon',{fill:'#f0a35e'},eU);
+const eV = mk('g',{}); eV._line = mk('line',{stroke:'#6cb6ff','stroke-width':3.5,'stroke-linecap':'round'},eV); eV._head = mk('polygon',{fill:'#6cb6ff'},eV);
+// 拖拽手柄
+const hU = mk('circle',{r:9,fill:'#f0a35e',stroke:'#12151c','stroke-width':2,cursor:'grab'});
+const hV = mk('circle',{r:9,fill:'#6cb6ff',stroke:'#12151c','stroke-width':2,cursor:'grab'});
+const lbl = mk('text',{'font-size':12,fill:'#9aa5b5'});
+lbl.textContent = '拖动圆点试试';
+
+const fmt = x => (Math.round(x*10)/10).toString();
+
+function render(){
+  const [a,b] = u, [c,d] = v;
+  document.getElementById('vu').textContent = `(${fmt(a)}, ${fmt(b)})`;
+  document.getElementById('vv').textContent = `(${fmt(c)}, ${fmt(d)})`;
+  document.getElementById('sa').value=a; document.getElementById('sb').value=b;
+  document.getElementById('sc').value=c; document.getElementById('sd').value=d;
+  const det = a*d-b*c;
+  document.getElementById('detv').textContent = fmt(det);
+  document.getElementById('areav').textContent = fmt(Math.abs(det));
+  const ux=a*S, uy=-b*S, vx=c*S, vy=-d*S;
+  setArrow(eU,0,0,ux,uy); setArrow(eV,0,0,vx,vy);
+  para.setAttribute('points',`0,0 ${ux},${uy} ${ux+vx},${uy+vy} ${vx},${vy}`);
+  para.setAttribute('stroke', det<0 ? '#ff7b72' : '#f0a35e');
+  para.setAttribute('fill', det<0 ? 'rgba(255,123,114,.14)' : 'rgba(240,163,94,.16)');
+  hU.setAttribute('cx',ux); hU.setAttribute('cy',uy);
+  hV.setAttribute('cx',vx); hV.setAttribute('cy',vy);
+  const msg = document.getElementById('msg');
+  if(Math.abs(det)<0.05){
+    msg.innerHTML = 'det ≈ 0：两向量<em>共线</em>，平行四边形被压扁成线段——这就是两行（列）成比例 ⇒ 行列式为 0。';
+  } else if(det<0){
+    msg.innerHTML = 'det &lt; 0：橙向量<em>顺时针</em>才能转到蓝向量，有向面积为负（对应交换两行变号）。';
+  } else {
+    msg.innerHTML = 'det &gt; 0：橙向量<em>逆时针</em>转到蓝向量。';
+  }
+}
+function svgPos(evt){
+  const pt = svg.createSVGPoint();
+  pt.x = evt.clientX; pt.y = evt.clientY;
+  return pt.matrixTransform(svg.getScreenCTM().inverse());
+}
+let drag = null;
+function startDrag(which){ return evt=>{ drag = which; evt.preventDefault(); }; }
+hU.addEventListener('pointerdown', startDrag('u'));
+hV.addEventListener('pointerdown', startDrag('v'));
+svg.addEventListener('pointermove', evt=>{
+  if(!drag) return;
+  const p = svgPos(evt);
+  const x = Math.round(Math.max(-2.5,Math.min(2.5,p.x/S))*10)/10;
+  const y = Math.round(Math.max(-2.5,Math.min(2.5,-p.y/S))*10)/10;
+  if(drag==='u') u=[x,y]; else v=[x,y];
+  render();
+});
+svg.addEventListener('pointerup', ()=> drag=null);
+['sa','sb','sc','sd'].forEach((id,i)=>{
+  document.getElementById(id).addEventListener('input', e=>{
+    const val = parseFloat(e.target.value);
+    if(i<2) u[i]=val; else v[i-2]=val;
+    render();
+  });
+});
+document.getElementById('reset').onclick = ()=>{ u=[1,0]; v=[0,1]; render(); };
+document.getElementById('collapse').onclick = function(){
+  if(anim){ cancelAnimationFrame(anim); anim=null; this.textContent='▶ 动画：让行列式趋于 0'; return; }
+  this.textContent = '⏸ 停止';
+  const from = v.slice();
+  const to = [u[0]*1.8, u[1]*1.8]; // 目标：v 与 u 同向（共线）
+  const t0 = performance.now(), dur = 2500;
+  (function step(t){
+    const k = Math.min(1,(t-t0)/dur);
+    const e = k<0.5 ? 2*k*k : 1-Math.pow(-2*k+2,2)/2;
+    v = [from[0]+(to[0]-from[0])*e, from[1]+(to[1]-from[1])*e];
+    render();
+    if(k<1) anim = requestAnimationFrame(step);
+    else { anim=null; document.getElementById('collapse').textContent='▶ 动画：让行列式趋于 0'; }
+  })(t0);
+};
+render();
+</script>
+</body>
+</html>

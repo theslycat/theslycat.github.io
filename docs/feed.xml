@@ -7,6 +7,32 @@
     <language>zh-CN</language>
     <atom:link href="https://theslycat.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <item>
+      <title>线性代数期中复习 · 速记笔记</title>
+      <link>https://theslycat.github.io/posts/linear-algebra-midterm-notes/</link>
+      <guid isPermaLink="true">https://theslycat.github.io/posts/linear-algebra-midterm-notes/</guid>
+      <pubDate>Thu, 22 Oct 2026 00:00:00 GMT</pubDate>
+      <category>课堂笔记</category>
+      <category>线性代数</category>
+      <description>复习手册的浓缩版：9 个课件的知识点清单、19 条重要定理、25 条易错点与全部习题答案汇总，考前速查用。</description>
+    </item>
+    <item>
+      <title>线性代数期中复习手册</title>
+      <link>https://theslycat.github.io/posts/linear-algebra-midterm-review/</link>
+      <guid isPermaLink="true">https://theslycat.github.io/posts/linear-algebra-midterm-review/</guid>
+      <pubDate>Thu, 22 Oct 2026 00:00:00 GMT</pubDate>
+      <category>课堂笔记</category>
+      <category>线性代数</category>
+      <description>依据 9 个课件（445 页）整理的期中复习手册：矩阵、行列式、秩全覆盖，配 11 个交互式几何动画与 8 张演示图，全部习题答案经 sympy 精确复核。</description>
+    </item>
+    <item>
+      <title>大一新生Game Jam初体验</title>
+      <link>https://theslycat.github.io/posts/about-ai/</link>
+      <guid isPermaLink="true">https://theslycat.github.io/posts/about-ai/</guid>
+      <pubDate>Sun, 18 Oct 2026 00:00:00 GMT</pubDate>
+      <category>比赛</category>
+      <description>TapTap 聚光灯 GameJam比赛体验记录，以及关于ai时代程序开发的想法</description>
+    </item>
+    <item>
       <title>雷达的功能与种类</title>
       <link>https://theslycat.github.io/posts/radar-basic-1/</link>
       <guid isPermaLink="true">https://theslycat.github.io/posts/radar-basic-1/</guid>

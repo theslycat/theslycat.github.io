@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>克拉默法则 · 面积之比就是解</title>
+<style>
+  :root{
+    --bg:#12151c; --panel:#1a1f29; --panel2:#222838; --line:#2e3646;
+    --txt:#e8ecf3; --dim:#9aa5b5; --acc:#6cb6ff; --acc2:#f0a35e; --ok:#7bd88f;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;padding:20px;}
+  h1{font-size:18px;margin:0 0 4px}
+  .sub{color:var(--dim);font-size:13px;margin-bottom:14px}
+  .wrap{display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+  #ctl{flex:0 0 330px}
+  #view{flex:1;min-width:320px}
+  label{display:flex;justify-content:space-between;font-size:13px;color:var(--dim);margin:7px 0 2px}
+  label span{color:var(--acc);font-family:Consolas,monospace}
+  input[type=range]{width:100%;accent-color:#6cb6ff}
+  .btns{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+  button{background:var(--panel2);color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:7px 12px;font-size:13px;cursor:pointer}
+  button:hover{border-color:var(--acc);color:var(--acc)}
+  .formula{margin-top:12px;font-family:Consolas,monospace;font-size:14px;line-height:2.1;color:var(--dim);background:var(--panel2);border-radius:10px;padding:12px}
+  .formula b{color:var(--acc2);font-size:16px}
+  .info{margin-top:10px;font-size:13px;color:var(--dim);line-height:1.8}
+  .info em{color:var(--ok);font-style:normal}
+  svg{display:block;width:100%;height:auto;background:#0d1017;border-radius:10px;touch-action:none}
+</style>
+</head>
+<body>
+<h1>克拉默法则的几何解释：x₁ = D₁/D，x₂ = D₂/D</h1>
+<div class="sub">二元方程组 Ax=b 的系数列向量张成平行四边形（面积 |D|）；把某一列换成 b 后得到 D₁、D₂。解就是面积之比。D=0 时两直线平行（无解或重合）。</div>
+<div class="wrap">
+  <div class="card" id="ctl">
+    <label>a₁ = (a, b)<span id="v1">(1.0, 0.0)</span></label>
+    <input type="range" id="s1a" min="-2.5" max="2.5" step="0.1" value="1">
+    <input type="range" id="s1b" min="-2.5" max="2.5" step="0.1" value="0">
+    <label>a₂ = (c, d)<span id="v2">(0.0, 1.0)</span></label>
+    <input type="range" id="s2c" min="-2.5" max="2.5" step="0.1" value="0">
+    <input type="range" id="s2d" min="-2.5" max="2.5" step="0.1" value="1">
+    <label>b = (p, q)　绿色<span id="v3">(1.5, 1.5)</span></label>
+    <input type="range" id="s3p" min="-3" max="3" step="0.1" value="1.5">
+    <input type="range" id="s3q" min="-3" max="3" step="0.1" value="1.5">
+    <div class="btns">
+      <button id="parallel">▶ 动画：让 D → 0</button>
+      <button id="reset">重置</button>
+    </div>
+    <div class="formula">
+      D = |a b; c d| = <b id="D">1.0</b><br>
+      D₁ = |p b; q d| = <b id="D1">1.5</b><br>
+      D₂ = |a p; c q| = <b id="D2">1.5</b><br>
+      x₁ = D₁/D = <b id="x1">1.5</b>，x₂ = D₂/D = <b id="x2">1.5</b>
+    </div>
+    <div class="info" id="msg"></div>
+  </div>
+  <div class="card" id="view">
+    <svg id="svg" viewBox="-175 -135 350 270"></svg>
+  </div>
+</div>
+
+<script>
+const S=40;
+const svg=document.getElementById('svg');
+const NS="http://www.w3.org/2000/svg";
+let a1=[1,0], a2=[0,1], b=[1.5,1.5];
+let anim=null;
+function mk(t,at,p){const e=document.createElementNS(NS,t);for(const k in at)e.setAttribute(k,at[k]);(p||svg).appendChild(e);return e;}
+function setArrow(g,x1,y1,x2,y2){
+  g.setAttribute('x1',x1);g.setAttribute('y1',y1);g.setAttribute('x2',x2);g.setAttribute('y2',y2);
+  const ang=Math.atan2(y2-y1,x2-x1),s=9;
+  g._h.setAttribute('points',`${x2},${y2} ${x2-s*Math.cos(ang-0.42)},${y2-s*Math.sin(ang-0.42)} ${x2-s*Math.cos(ang+0.42)},${y2-s*Math.sin(ang+0.42)}`);
+}
+for(let i=-3;i<=3;i++){
+  mk('line',{x1:i*S,y1:-3*S,x2:i*S,y2:3*S,stroke:'#1b2230','stroke-width':1});
+  mk('line',{x1:-4*S,y1:i*S,x2:4*S,y2:i*S,stroke:'#1b2230','stroke-width':1});
+}
+mk('line',{x1:-165,y1:0,x2:165,y2:0,stroke:'#3a4658','stroke-width':1.5});
+mk('line',{x1:0,y1:-125,x2:0,y2:125,stroke:'#3a4658','stroke-width':1.5});
+const paraD=mk('polygon',{fill:'rgba(108,182,255,.13)',stroke:'#6cb6ff','stroke-width':1.5,'stroke-dasharray':'5 4'});
+const paraD1=mk('polygon',{fill:'rgba(240,163,94,.13)',stroke:'#f0a35e','stroke-width':1.5,'stroke-dasharray':'5 4'});
+const paraD2=mk('polygon',{fill:'rgba(123,216,143,.13)',stroke:'#7bd88f','stroke-width':1.5,'stroke-dasharray':'5 4'});
+const gA1=mk('line',{stroke:'#6cb6ff','stroke-width':3.5,'stroke-linecap':'round'});
+gA1._h=mk('polygon',{fill:'#6cb6ff'});
+const gA2=mk('line',{stroke:'#f0a35e','stroke-width':3.5,'stroke-linecap':'round'});
+gA2._h=mk('polygon',{fill:'#f0a35e'});
+const gB=mk('line',{stroke:'#7bd88f','stroke-width':3.5,'stroke-linecap':'round'});
+gB._h=mk('polygon',{fill:'#7bd88f'});
+const lbl=mk('text',{x:-165,y:-115,'font-size':12,fill:'#9aa5b5'});
+lbl.textContent='蓝=D(a₁,a₂) 橙=D₁(b,a₂) 绿=D₂(a₁,b)';
+const fmt=x=>(Math.round(x*100)/100).toString();
+function render(){
+  const [a,b1]=a1,[c,d]=a2,[p,q]=b;
+  document.getElementById('v1').textContent=`(${fmt(a)}, ${fmt(b1)})`;
+  document.getElementById('v2').textContent=`(${fmt(c)}, ${fmt(d)})`;
+  document.getElementById('v3').textContent=`(${fmt(p)}, ${fmt(q)})`;
+  document.getElementById('s1a').value=a;document.getElementById('s1b').value=b1;
+  document.getElementById('s2c').value=c;document.getElementById('s2d').value=d;
+  document.getElementById('s3p').value=p;document.getElementById('s3q').value=q;
+  const D=a*d-b1*c, D1=p*d-b1*q, D2=a*q-p*c;
+  document.getElementById('D').textContent=fmt(D);
+  document.getElementById('D1').textContent=fmt(D1);
+  document.getElementById('D2').textContent=fmt(D2);
+  const msg=document.getElementById('msg');
+  if(Math.abs(D)<1e-9){
+    document.getElementById('x1').textContent='—';document.getElementById('x2').textContent='—';
+    msg.innerHTML='D = 0：两条直线<em>平行</em>——要么无解（b 不在直线方向上），要么重合（无穷多解）。克拉默法则失效。';
+  }else{
+    document.getElementById('x1').textContent=fmt(D1/D);
+    document.getElementById('x2').textContent=fmt(D2/D);
+    msg.innerHTML='交点 = (x₁, x₂)。几何上：橙色平行四边形面积 / 蓝色 = x₁，绿色 / 蓝色 = x₂。';
+  }
+  const A1=[a*S,-b1*S],A2=[c*S,-d*S],B=[p*S,-q*S];
+  setArrow(gA1,0,0,...A1);setArrow(gA2,0,0,...A2);setArrow(gB,0,0,...B);
+  paraD.setAttribute('points',`0,0 ${A1} ${A1[0]+A2[0]},${A1[1]+A2[1]} ${A2}`);
+  paraD1.setAttribute('points',`0,0 ${B} ${B[0]+A2[0]},${B[1]+A2[1]} ${A2}`);
+  paraD2.setAttribute('points',`0,0 ${A1} ${A1[0]+B[0]},${A1[1]+B[1]} ${B}`);
+}
+function svgPos(e){const pt=svg.createSVGPoint();pt.x=e.clientX;pt.y=e.clientY;return pt.matrixTransform(svg.getScreenCTM().inverse());}
+let drag=null;
+const hB=mk('circle',{r:9,fill:'#7bd88f',stroke:'#12151c','stroke-width':2,cursor:'grab'});
+hB.addEventListener('pointerdown',()=>drag='b');
+svg.addEventListener('pointermove',e=>{
+  if(!drag)return;
+  const p=svgPos(e);
+  const x=Math.round(Math.max(-3,Math.min(3,p.x/S))*10)/10;
+  const y=Math.round(Math.max(-3,Math.min(3,-p.y/S))*10)/10;
+  if(drag==='b')b=[x,y];
+  render();
+});
+svg.addEventListener('pointerup',()=>drag=null);
+const bind=(id,i,arr)=>{
+  document.getElementById(id).addEventListener('input',e=>{arr[i]=parseFloat(e.target.value);render();});
+};
+bind('s1a',0,a1);bind('s1b',1,a1);bind('s2c',0,a2);bind('s2d',1,a2);bind('s3p',0,b);bind('s3q',1,b);
+document.getElementById('reset').onclick=()=>{a1=[1,0];a2=[0,1];b=[1.5,1.5];render();};
+document.getElementById('parallel').onclick=function(){
+  if(anim){cancelAnimationFrame(anim);anim=null;this.textContent='▶ 动画：让 D → 0';return;}
+  this.textContent='⏸ 停止';
+  const from=a2.slice(), to=[a1[0]*1.7,a1[1]*1.7]; // a2 与 a1 共线
+  const t0=performance.now(),dur=2600;
+  (function step(t){
+    const k=Math.min(1,(t-t0)/dur);
+    const e=k<0.5?2*k*k:1-Math.pow(-2*k+2,2)/2;
+    a2=[from[0]+(to[0]-from[0])*e, from[1]+(to[1]-from[1])*e];
+    render();
+    if(k<1)anim=requestAnimationFrame(step);
+    else{anim=null;document.getElementById('parallel').textContent='▶ 动画：让 D → 0';}
+  })(t0);
+};
+render();
+</script>
+</body>
+</html>

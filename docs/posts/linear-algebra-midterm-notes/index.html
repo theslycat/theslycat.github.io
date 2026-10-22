@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>线性代数期中复习 · 速记笔记 · HAPPYsalt</title>
+<meta name="description" content="复习手册的浓缩版：9 个课件的知识点清单、19 条重要定理、25 条易错点与全部习题答案汇总，考前速查用。">
+<meta property="og:title" content="线性代数期中复习 · 速记笔记 · HAPPYsalt">
+<meta property="og:description" content="复习手册的浓缩版：9 个课件的知识点清单、19 条重要定理、25 条易错点与全部习题答案汇总，考前速查用。">
+<meta property="og:type" content="website">
+<link rel="icon" href="/avatar.svg">
+<link rel="alternate" type="application/rss+xml" title="HAPPYsalt" href="/feed.xml">
+<link rel="stylesheet" href="/style.css">
+
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="/">
+      <img src="/avatar.svg" alt="avatar" width="44" height="44">
+      <span class="brand-text">
+        <span class="brand-title">HAPPYsalt</span>
+        <span class="brand-tagline">学习 运动 生活</span>
+      </span>
+    </a>
+    <nav class="nav">
+        <a href="/">BLOG</a>
+        <a href="/archive/">ARCHIVE</a>
+        <a href="/tags/">TAGS</a>
+        <a href="/about/">ABOUT</a>
+        <a href="/feed.xml">RSS</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+<article>
+  <header class="article-header">
+    <h1 class="article-title">线性代数期中复习 · 速记笔记</h1>
+    <div class="article-meta">
+      <time datetime="2026-10-22">2026-10-22</time>
+      <span>·</span><span>17 MIN READ</span>
+      <span>·</span><a class="tag" href="/tags/#%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0">课堂笔记</a> <a class="tag" href="/tags/#%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0">线性代数</a>
+    </div>
+  </header>
+  <div class="prose"><blockquote>
+<p>📖 完整讲解版：<a href="/posts/linear-algebra-midterm-review/">线性代数期中复习手册</a>（含 11 个交互式几何动画与习题精讲）。
+来源：<code>Linear_Algebra_Slides/</code> 文件夹全部 9 个 PPTX（共 445 页，48 学时课程，授课教师宫丰奎、张南）。
+说明：幻灯片中的公式多以图片嵌入，本笔记结合文字提取 + 图片还原整理；凡标注 <strong>【已算】</strong> 的答案均经 sympy 精确计算复核。</p>
+</blockquote>
+<h2>一、资料清单与覆盖范围</h2>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2025（第一讲）</td>
+<td>课程起源；鸡兔同笼引例；高斯消元法；矩阵定义；特殊矩阵</td>
+</tr>
+<tr>
+<td>2025第二讲</td>
+<td>矩阵运算（加/减/数乘/乘法/转置）；对称与反对称阵；共轭矩阵；可逆矩阵（定义、性质、例题）；通信中的应用（发射机-接收机）</td>
+</tr>
+<tr>
+<td>2026第三讲</td>
+<td>可逆矩阵（例题）；分块矩阵；线性方程组的矩阵表示；LDPC 通信举例</td>
+</tr>
+<tr>
+<td>2026第5-6讲</td>
+<td>初等变换与初等矩阵；矩阵的秩；应用案例（马尔科夫链、LDPC 编码）</td>
+</tr>
+<tr>
+<td>2.1 n阶行列式</td>
+<td>二阶/三阶行列式；排列与逆序；对换；n 阶行列式定义</td>
+</tr>
+<tr>
+<td>2.2 行列式性质</td>
+<td>行列式 5 大性质及推论；几何解释；性质应用举例</td>
+</tr>
+<tr>
+<td>2.3 按行按列展开</td>
+<td></td>
+</tr>
+<tr>
+<td>2.4 行列式应用</td>
+<td>伴随矩阵；可逆充要条件；克拉默法则；齐次方程组；课堂习题</td>
+</tr>
+<tr>
+<td>第三章-第一节</td>
+<td>矩阵的秩（新定义、初等变换求法、9 条性质）；秩在通信中的应用</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>二、知识点清单（按讲）</h2>
+<h3>第 1 讲（高斯消元 + 矩阵概念）</h3>
+<ol>
+<li>线性代数起源：17 世纪（费马、笛卡尔），成于公元一世纪左右；研究对象为向量、线性空间、线性变换、有限维线性方程组。</li>
+<li><strong>鸡兔同笼引例</strong>：14 头 38 腿 → 二元一次方程组；解方程组 = 消元。</li>
+<li><strong>高斯消元法</strong>三类变换（方程级）：(1) 对调两个方程次序；(2) 非零数 k 乘某方程；(3) 一个方程加上另一个方程的 k 倍。三类变换均可逆 ⇒ 变换前后同解。</li>
+<li>只对系数和常数项运算 ⇒ 引入矩阵。</li>
+<li><strong>矩阵定义</strong>：m×n 个数排成 m 行 n 列；a_ij 为第 i 行第 j 列元；记为 A_{m×n}=(a_ij)。</li>
+<li>生活/专业中的矩阵：调运表、航班邻接矩阵、成绩单、数独、围棋 AlphaGo、FPGA/ASIC、OFDM、傅里叶变换矩阵（酉矩阵/正交矩阵）。</li>
+<li><strong>特殊矩阵</strong>：n 阶方阵（主/次对角线）；行矩阵/行向量；列矩阵/列向量；零矩阵 O；上/下三角矩阵；对角阵 diag(λ₁,…,λₙ)；单位阵 E/I；同型矩阵；矩阵相等（对应元素相等）。
+<ul>
+<li>⚠️ 不同型的零矩阵不相等。</li>
+</ul>
+</li>
+</ol>
+<h3>第 2 讲（矩阵运算 + 可逆矩阵）</h3>
+<ol>
+<li><strong>加法</strong>：同型才能加；运算律（交换、结合）；负矩阵 -A。</li>
+<li><strong>数乘</strong>：λ(μA)=(λμ)A；(λ+μ)A=λA+μA；λ(A+B)=λA+λB。加法、减法、数符合称<strong>线性运算</strong>。</li>
+<li><strong>乘法</strong>：由线性变换复合导出。A_{m×s}·B_{s×n}：cij = A 第 i 行与 B 第 j 列对应元素乘积之和。
+<ul>
+<li>运算律：结合 (AB)C=A(BC)；分配 λ(AB)=(λA)B=A(λB)；(A+B)C=AC+BC；C(A+B)=CA+CB。</li>
+<li>⚠️ <strong>一般不满足交换律</strong>：AB ≠ BA（有反例）；若 AB=BA 称 A、B 可交换。</li>
+<li>⚠️ AB=O ⇏ A=O 或 B=O；A²=O ⇏ A=O。</li>
+<li>⚠️ (AB)^k ≠ A^k B^k（一般）。</li>
+<li>幂：A^k；方阵多项式 f(A)=a₀E+a₁A+…+aₘA^m；<strong>f(A) 与 g(A) 可交换</strong>，但 f(A)g(B) 一般 ≠ g(B)f(A)。</li>
+<li>例3：(A-2E)(A+3E)=(A+3E)(A-2E)=A²+A-6E。</li>
+</ul>
+</li>
+<li><strong>转置</strong>：行换同序数列；(Aᵀ)ᵀ=A；(A+B)ᵀ=Aᵀ+Bᵀ；(λA)ᵀ=λAᵀ；(AB)ᵀ=BᵀAᵀ（<strong>反序</strong>！）。</li>
+<li><strong>对称阵</strong> Aᵀ=A（充要 a_ij=a_ji）；<strong>反对称阵</strong> Aᵀ=-A（充要 a_ij=-a_ji，对角线元为 0）。
+<ul>
+<li>例8：任一方阵 A = (A+Aᵀ)/2 + (A-Aᵀ)/2 = 对称 + 反对称。</li>
+<li>例9：XᵀX=1 ⇒ H=E-2XXᵀ 是对称阵且 HᵀH=E（Householder 变换）。</li>
+</ul>
+</li>
+<li><strong>共轭矩阵</strong>（复矩阵）：Ā；运算性质 (Ā)ᵀ = A^T 的共轭等；通信例子：发射机 x、信道 h、接收机 y = hx。</li>
+<li><strong>可逆矩阵</strong>：
+<ul>
+<li>定义：n 阶方阵 A，存在 B 使 AB=BA=E ⇒ A 可逆，B 为逆矩阵（唯一）。</li>
+<li>唯一性证明：B=BE=B(AC)=(BA)C=EC=C。</li>
+<li>2 阶定理：ad-bc≠0 时 [[a,b],[c,d]] 可逆，逆 = 1/(ad-bc)·[[d,-b],[-c,a]]。</li>
+<li>对角阵：λ₁λ₂…λₙ≠0 时可逆，逆为 diag(1/λ₁,…,1/λₙ)。</li>
+<li>性质（一大波）：(A⁻¹)⁻¹=A；(λA)⁻¹=(1/λ)A⁻¹；(AB)⁻¹=B⁻¹A⁻¹（反序）；(Aᵀ)⁻¹=(A⁻¹)ᵀ；(Aⁿ)⁻¹=(A⁻¹)ⁿ；|A⁻¹|=|A|⁻¹。</li>
+<li>例4：A²-2A-4E=O ⇒ (A+2E) 可逆，且 (A+2E)⁻¹ = E - A/4（配方：A²-2A-4E=(A+2E)(A-4E)+4E）。</li>
+<li>例5：A、B 可逆且 A+B 可逆 ⇒ (1) A⁻¹+B⁻¹ 可逆，(A⁻¹+B⁻¹)⁻¹=B(A+B)⁻¹A；(2) A(A+B)⁻¹B=B(A+B)⁻¹A（逆唯一性）。</li>
+<li>课堂交互均为&quot;判断 A 是否可逆 / 求逆&quot;类。</li>
+</ul>
+</li>
+</ol>
+<h3>第 3 讲（分块矩阵 + 方程组矩阵表示）</h3>
+<ol>
+<li><strong>分块矩阵</strong>：横竖线分块；子块；按行/按列分块（A=(α₁,…,αₙ)，Aᵀ 按行）。</li>
+<li>运算规则：<strong>A+B 要求行列分法相同；λA 无要求；AB 要求 A 的列分法 = B 的行分法</strong>。</li>
+<li><strong>分块对角矩阵</strong>：主对角线子块为方阵、其余为零块；行列式 = 各子块行列式之积；可逆性看每个子块。</li>
+<li>线性方程组矩阵表示：Ax=b；系数矩阵 A、常数项 b、增广 (A|b)；b=0 为齐次。</li>
+<li>例11（重要）：A 为 m×n，对任意 n 维列向量 x 有 Ax=0 ⇔ A=O。证明用 E 按列分块 trick：AE=A(ε₁,…,εₙ)=(Aε₁,…,Aεₙ)=O。</li>
+<li>通信举例：LDPC 码校验矩阵。</li>
+</ol>
+<h3>第 5-6 讲（初等变换与初等矩阵 + 秩）</h3>
+<ol>
+<li><strong>初等行变换</strong>三类型：对换 i(j)、倍乘 i(k)、倍加 i,j(k)。逆变换仍为初等变换且同类型。</li>
+<li><strong>行阶梯形</strong>：零行在下方；首非零元前零的个数逐行增加。<strong>行最简形</strong>：首非零元为 1 且所在列其它元为 0。</li>
+<li>定理 1.1 + 推论：任一矩阵经初等行变换化行最简形<strong>唯一</strong>；经有限次初等变换化成标准形 N（r 个 1 在左上）。</li>
+<li><strong>初等矩阵</strong>：单位阵经一次初等变换得到；E(i,j)、E(i(k))、E(i,j(k))。
+<ul>
+<li>定理 1.2：对 A 施行一次初等行变换 ⇔ 左乘相应 m 阶初等矩阵；列变换 ⇔ 右乘 n 阶初等矩阵。</li>
+<li>推论：初等矩阵均可逆；E(i,j)⁻¹=E(i,j)；E(i(k))⁻¹=E(i(1/k))；E(i,j(k))⁻¹=E(i,j(-k))。</li>
+<li>定理 1.3：n 阶方阵 A 可逆 ⇔ A 可表示成有限个初等矩阵的乘积。</li>
+</ul>
+</li>
+<li><strong>初等变换法求逆</strong>：(A,E) —初等行变换→ (E,A⁻¹)；列变换同理：[[A],[E]] → [[E],[A⁻¹]]。</li>
+<li><strong>矩阵的秩</strong>：R(A) = 等价行阶梯形非零行数 = 最高阶非零子式阶数。
+<ul>
+<li>求法：初等行变换化行阶梯形，数非零行。</li>
+<li>例（n 阶全 1 变体）：A 主对角线 x、其余 1？当 x=1 时 R(A)=1；x≠1 且 1+(n-1)x=0 时 R(A)=n-1；x≠1 且 1+(n-1)x≠0 时 R(A)=n。</li>
+</ul>
+</li>
+<li>应用案例：<strong>马尔科夫链</strong>（国会选举投票向量 x₀,x₁,…，x_{k+1}=Px_k）；<strong>LDPC 编码</strong>（校验矩阵 H，5G_NR 基矩阵 BG1/BG2，循环移位系数，k=22Z, n=68Z）。</li>
+<li>选择/判断题（真题风格，答案见第四部分）。</li>
+</ol>
+<h3>第 2.1 讲（二阶三阶 + n 阶行列式定义）</h3>
+<ol>
+<li>二元方程组消元得 D=a₁₁a₂₂-a₁₂a₂₁；D≠0 时解为 Cramer 形式（2 元）。</li>
+<li><strong>二阶行列式</strong>：对角线法则（主对角线积 − 副对角线积）。</li>
+<li><strong>三阶行列式</strong>：对角线法则（6 项，实线正、虚线负）。⚠️ 对角线法则<strong>只适用于 2、3 阶</strong>。</li>
+<li>例 4：解方程（行列式形式）。</li>
+<li><strong>排列</strong>：n 元排列；逆序；逆序数 τ；奇/偶排列。求法：每个元素前面比它大的数码个数之和。</li>
+<li><strong>对换</strong>：相邻对换、一般对换；<strong>定理 1：一次对换改变排列奇偶性</strong>（一般对换 = 奇数次相邻对换）。推论：n 元排列与自然排列互变，对换次数奇偶性与排列一致。</li>
+<li><strong>n 阶行列式定义</strong>：|A|=Σ (-1)^τ(j₁j₂…jₙ) a_{1j₁}a_{2j₂}…a_{njₙ}，共 n! 项，每项不同行不同列。</li>
+<li>⚠️ 一阶行列式 |a|=a，勿与绝对值混淆。</li>
+<li>例 4（次对角线行列式）：非零项唯一 ⇒ 次对角线行列式 = (-1)^{n(n-1)/2} a_{1n}a_{2,n-1}…a_{n1}。</li>
+<li>例 5（上三角）= 对角线乘积；下三角、对角阵同理。</li>
+<li>定理 2.2 及推论：|A|=Σ(-1)^τ(i₁…iₙ)+τ(j₁…jₙ) a_{i₁j₁}…（行标也求和）。</li>
+<li>课堂投票：已知行列式，求 a₄₃a₅₂… 的系数 ⇒ 答案 <strong>-1</strong>（含该元的项有两项，一正一负）。</li>
+</ol>
+<h3>第 2.2 讲（行列式性质）</h3>
+<ol>
+<li><strong>性质 1</strong>：|Aᵀ|=|A|（行列对称）。</li>
+<li><strong>性质 2</strong>：互换两行（列）变号。推论 1：两行（列）相同 ⇒ 0。</li>
+<li><strong>性质 3</strong>：某行（列）公因子可提出。推论 2：数 k 乘行列式 = k 乘某一行（列）→ <strong>推论 4：|kA|=kⁿ|A|</strong>（n 阶！）。</li>
+<li><strong>性质 4</strong>：某行（列）各元为两数之和 ⇒ 拆两个行列式。推论 5：k 个数之和拆 k 个。</li>
+<li><strong>性质 5</strong>：第 j 行（列）的 k 倍加到第 i 行（列），值不变。</li>
+<li><strong>几何解释</strong>：二阶行列式 = 平行四边形<strong>有向面积</strong>（a 逆时针转到 b 取正）。</li>
+<li>例 2（n 阶，主对角线 a、其余 b）：<strong>Dₙ = <a href="/assets/a-b">a+(n-1)b</a>^{n-1}</strong>。方法：2~n 列都加到第 1 列 → 提公因子 → 2~n 行减第 1 行 → 上三角。</li>
+</ol>
+<h3>第 2.3 讲（按行按列展开）</h3>
+<ol>
+<li><strong>例 1 爪型行列式</strong>：第一行/第一列及对角线外全为 0。</li>
+<li><strong>例 3</strong>：A_{m×m}、B_{n×n}、C_{m×n} ⇒ |A B; C D| 型 ⇒ D=|A||B|（分块三角，用性质 5 化三角形）。</li>
+<li><strong>性质 6</strong>：|AB|=|A||B|。证明构造 2n 阶行列式（以 b_kj 乘第 k 列加到第 n+j 列）。</li>
+<li><strong>余子式 M_ij</strong>：划去第 i 行第 j 列；<strong>代数余子式 A_ij=(-1)^{i+j}M_ij</strong>。</li>
+<li><strong>定理 2.3（展开定理）</strong>：D = Σ a_ij A_ij（按行/按列）。</li>
+<li><strong>定理 2.4</strong>：某行（列）各元与**另一行（列）**对应元的代数余子式乘积之和 = 0（i≠j）。</li>
+<li>统一形式：<strong>AA* = A*A = |A|E</strong>。</li>
+<li>例 2（3-4-1 三对角递推）：<strong>Dₙ = (3^{n+1}-1)/2</strong>。按第一列展开 ⇒ Dₙ-Dₙ₋₁=3(Dₙ₋₁-Dₙ₋₂)=…=3ⁿ；Dₙ-3Dₙ₋₁=Dₙ₋₁-3Dₙ₋₂=…=1 ⇒ Dₙ=(3^{n+1}-1)/2。</li>
+<li>例 3：逐次换行换列化为爪型/三角。</li>
+<li><strong>范德蒙德行列式</strong>：Dₙ=∏₁≤j&lt;i≤n (x_i-x_j)。数学归纳法证明（按第 1 列展开 → 提取公因子 → n-1 阶范德蒙德）。</li>
+<li>范德蒙德应用：幂次方程组唯一解判定；<strong>拉格朗日插值多项式唯一性</strong>；Reed-Solomon 码生成矩阵；DFT（n 次单位根 Vandermonde）；均匀线阵阵列流形；谱估计。</li>
+<li>例 5（分块）：|A B; C D| 型 4 阶，A 可逆 ⇒ D=|A||D-CA⁻¹B| ⇒ <strong>-5</strong> 【已算】。</li>
+<li>例 6：4 阶数值行列式 ⇒ <strong>40</strong> 【已算】。</li>
+<li>例 7：A=(α,γ₁,γ₂,γ₃)、B=(β,γ₁,γ₂,γ₃)，|A|=5、|B|=2 ⇒ |Aᵀ+Bᵀ|=|A+B|=|α+β,2γ₁,2γ₂,2γ₃|=2³(5+2)=<strong>56</strong>。</li>
+</ol>
+<h3>第 2.4 讲（行列式应用）</h3>
+<ol>
+<li><strong>伴随矩阵</strong> A*：由代数余子式 A_ij 构成的矩阵（<strong>转置</strong>排列：(j,i) 位置放 A_ij）。</li>
+<li>例 7：AA*=A*A=|A|E。</li>
+<li><strong>定理 2.5</strong>：A 可逆 ⇔ |A|≠0，且 A⁻¹=A*/|A|。非奇异（|A|≠0）/ 奇异（|A|=0）——Sylvester 典故 &quot;how singular!&quot;。</li>
+<li>推论 1：AB=E ⇒ A⁻¹=B、B⁻¹=A（方阵）。</li>
+<li>推论 2：A 可逆且 AB=AC ⇒ B=C（消去律）。</li>
+<li>例 8：|A|=2（三阶）⇒ |2A⁻¹|=1/4（=2⁻³·2=1/4）；|A*|=|A|^{n-1}=4。</li>
+<li><strong>克拉默法则</strong>：D≠0 时 x_j = D_j/D（D_j 为用 b 替换第 j 列）。条件：方程个数=未知量个数 + D≠0。</li>
+<li>定理 2.7：齐次方程组有非零解 ⇔ |A|=0。</li>
+<li>例 10：λ=0、2 或 3 时齐次方程组有非零解。</li>
+<li>例 11：D=0 时无解或无穷多解（不能用 Cramer）。</li>
+<li>课堂习题（见第四部分，答案已全部复核）。</li>
+</ol>
+<h3>第三章-第一节（矩阵的秩）</h3>
+<ol>
+<li>秩的新定义：最高阶非零子式的阶数；等价行阶梯形非零行数。</li>
+<li>初等变换求秩（不改变秩）；证明用&quot;最高阶非零子式&quot;分情况讨论。</li>
+<li>回顾关联：排列对换奇偶性、行列式展开、初等矩阵可逆。</li>
+<li><strong>秩的 9 条性质</strong>：
+(1) 0≤R(A_{m×n})≤min{m,n}；
+(2) R(Aᵀ)=R(A)；
+(3) k≠0 ⇒ R(kA)=R(A)；
+(4) P、Q 可逆 ⇒ R(A)=R(PA)=R(AQ)=R(PAQ)；
+(5) max{R(A),R(B)}≤R(A,B)≤R(A)+R(B)；B=b 时 R(A)≤R(A,b)≤R(A)+1；
+(6) R(A+B)≤R(A)+R(B)；
+(7) R(AB)≤min{R(A),R(B)}；
+(8) R(AB)≥R(A)+R(B)-n；
+(9) AB=O ⇒ R(A)+R(B)≤n。</li>
+<li>通信应用：信道问题（秩与可解性）、干扰问题。</li>
+</ol>
+<hr>
+<h2>三、重要定理汇总</h2>
+<table>
+<thead>
+<tr>
+<th>定理</th>
+<th>内容</th>
+<th>出处</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>高斯消元同解</td>
+<td>三类初等变换可逆 ⇒ 同解</td>
+<td>1.1</td>
+</tr>
+<tr>
+<td>乘法定义</td>
+<td>A_{m×s}B_{s×n}=C_{m×n}, c_ij=Σ a_ik b_kj</td>
+<td>1.2.3</td>
+</tr>
+<tr>
+<td>(AB)ᵀ=BᵀAᵀ</td>
+<td>转置反序</td>
+<td>1.2.3</td>
+</tr>
+<tr>
+<td>逆矩阵存在唯一</td>
+<td>AB=BA=E ⇒ B 唯一</td>
+<td>1.3.1</td>
+</tr>
+<tr>
+<td>2 阶可逆</td>
+<td>ad-bc≠0，A⁻¹=1/(ad-bc)[[d,-b],[-c,a]]</td>
+<td>1.3.1</td>
+</tr>
+<tr>
+<td>定理 1.1</td>
+<td>行最简形唯一</td>
+<td>1.5.1</td>
+</tr>
+<tr>
+<td>定理 1.2</td>
+<td>初等行变换 ⇔ 左乘初等矩阵</td>
+<td>1.5.2</td>
+</tr>
+<tr>
+<td>定理 1.3</td>
+<td>A 可逆 ⇔ 有限个初等矩阵之积</td>
+<td>1.5.2</td>
+</tr>
+<tr>
+<td>定理 1（对换）</td>
+<td>一次对换改变排列奇偶性</td>
+<td>2.2.2</td>
+</tr>
+<tr>
+<td>定理 2.2</td>
+<td>行列式一般项（行标版本）</td>
+<td>2.2</td>
+</tr>
+<tr>
+<td>性质 1–5</td>
+<td>转置、换行变号、提公因子、拆分、倍加不变</td>
+<td>2.3</td>
+</tr>
+<tr>
+<td>性质 6</td>
+<td>|AB|=|A||B|</td>
+<td>2.4</td>
+</tr>
+<tr>
+<td>定理 2.3</td>
+<td>按行（列）展开</td>
+<td>2.4</td>
+</tr>
+<tr>
+<td>定理 2.4</td>
+<td>异行余子式乘积和 = 0</td>
+<td>2.4</td>
+</tr>
+<tr>
+<td>范德蒙德</td>
+<td>Dₙ=∏(x_i-x_j)</td>
+<td>2.4</td>
+</tr>
+<tr>
+<td>定理 2.5</td>
+<td>A 可逆 ⇔ |A|≠0，A⁻¹=A*/|A|</td>
+<td>2.5</td>
+</tr>
+<tr>
+<td>定理 2.6</td>
+<td>克拉默法则</td>
+<td>2.5</td>
+</tr>
+<tr>
+<td>定理 2.7</td>
+<td>齐次方程组非零解 ⇔ |A|=0</td>
+<td>2.5</td>
+</tr>
+<tr>
+<td>秩性质 9 条</td>
+<td>见上</td>
+<td>3.2</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>四、习题与答案汇总（含课堂交互）</h2>
+<h3>A. 2025第一讲（高斯消元）</h3>
+<ul>
+<li><strong>引例 1</strong>：鸡兔同笼，头 14、腿 38。解：x+y=14, 2x+4y=38 ⇒ 鸡 9 兔 5。（消元：①×(-2)+② 得 2y=10 ⇒ y=5；②×1/2；②×(-1)+① 得 x=9。）</li>
+<li><strong>引例 2</strong>：四元线性方程组消元全过程；某步后取 x₃ 为自由变量 c，得通解（恒等式）。</li>
+</ul>
+<h3>B. 2025第二讲（矩阵运算与可逆）</h3>
+<ul>
+<li>例（乘法例 1）：计算若干乘积（含不可乘情形判断）。</li>
+<li>课堂交互 1/2：矩阵乘法可交换性判断。</li>
+<li>例 2（转置）：已知 A、B 求 (AB)ᵀ 等，两种解法（先乘后转 / 先转后乘）。</li>
+<li>例 4：A=[[3,4],[4,3]]（2 阶），与 C₀、A 相关计算（矩阵多项式）。</li>
+<li>例 5（6 页）：设 A=[[1,1],[0,1]] 类，求 Aⁿ / f(A)。</li>
+<li>例 6：类似幂运算。</li>
+<li>例 7：A=[[1,1],[0,1]]，求幂。</li>
+<li>例 1（可逆）：A=[[1,-1],[1,1]]，B=[[1/2,1/2],[-1/2,1/2]]，判断 B 是否 A 的逆 ⇒ <strong>是</strong>（AB=BA=E）。</li>
+<li>例 2（待定系数法）：A=[[2,1],[-1,0]] ⇒ A⁻¹=[[0,-1],[1,2]]。</li>
+<li>例 3：diag(λ₁,…,λₙ)，λ₁λ₂…λₙ≠0 时可逆，逆=diag(1/λ₁,…,1/λₙ)；扩展：反对角阵。</li>
+<li>例 4：A²-2A-4E=O ⇒ (A+2E)⁻¹=E-A/4。</li>
+<li>例 5：A⁻¹+B⁻¹ 可逆且 (A⁻¹+B⁻¹)⁻¹=B(A+B)⁻¹A；A(A+B)⁻¹B=B(A+B)⁻¹A。</li>
+<li>课堂交互 1/2/3：可逆判断、性质应用。</li>
+</ul>
+<h3>C. 2026第三讲（分块矩阵）</h3>
+<ul>
+<li>例 1：3×4 矩阵 2×2 / 2×3 多种分块。</li>
+<li>例 2~10：分块加、数乘、乘法（内维匹配）、分块对角行列式/求逆。</li>
+<li>例 7：A=(a₁,…,aₙ) ⇒ AAᵀ 与 AᵀA（按列分块乘法）。</li>
+<li>例 11：Ax=0（∀n 维 x）⇔ A=O。</li>
+<li>例 8/9/10：分块对角矩阵运算与求逆。</li>
+</ul>
+<h3>D. 2026第5-6讲（初等变换与秩）</h3>
+<ul>
+<li>引例：初等行变换解方程组（增广矩阵全程）。</li>
+<li>例 1：解线性方程组（化为最简形后回代）。</li>
+<li>例 2：求 A 的行阶梯形与行最简形。</li>
+<li>课堂交互 1：<strong>判断</strong>：若 A 可逆，则 A 一定可以经过初等变换得到 E ⇒ <strong>对</strong>（定理 1.3）。</li>
+<li>课堂交互 2：<strong>判断</strong>：若 A 可逆，则 A 一定可以经过初等<strong>行</strong>变换得到 E ⇒ <strong>对</strong>。</li>
+<li>例 3：初等矩阵相关计算。</li>
+<li>例 1/2：初等变换法求逆 (A,E)→(E,A⁻¹)。</li>
+<li>例 3：求矩阵秩（数值矩阵）。</li>
+<li>例（真题 1）：A=[[1,2,3],[4,5,6],[7,8,9]]，P=[[0,0,1],[0,1,0],[1,0,0]]，Q=[[1,0,0],[0,0,1],[0,1,0]]（求 PAQ 类，答案为秩/标准形相关）。</li>
+<li>例（真题 2）：设 A 为 3 阶矩阵，将 A 的第二行加到第一行得 B，再将 B 的第一列的 -1 倍加到第二列得 C，记 P=[[1,1,0],[0,1,0],[0,0,1]]，则 <strong>C=PAQ（答案 B）</strong>。</li>
+<li>例（真题 3）：A=(a_ij)₄ₓ₄，B=(a_{5-i,5-j})（180° 翻转），P₁=反序阵 J，P₂=置换阵 ⇒ B=P₁AP₂，B⁻¹=P₂A⁻¹P₁。</li>
+<li>例 4/5：求秩（含参数讨论）。</li>
+<li>例（n 阶）：主元 x、其余全 1：x=1 ⇒ R=1；x≠1 且 1+(n-1)x=0 ⇒ R=n-1；x≠1 且 1+(n-1)x≠0 ⇒ R=n。</li>
+</ul>
+<h3>E. 2.1 行列式</h3>
+<ul>
+<li>例 1：对角线法则算 3 阶。</li>
+<li>例 2：含 0 的 3 阶（0 越多越容易）。</li>
+<li>例 3：Cramer 解 3 元方程组。</li>
+<li>例 4：解方程（3 阶行列式 = 0）。</li>
+<li>例 1（逆序）：τ(32514)=0+1+0+3+1=5，奇排列。</li>
+<li>例 2：计算若干排列逆序数并判奇偶。</li>
+<li>例 3：154362 → 123456，τ=0+0+1+2+0+4=7（奇数次对换）。</li>
+<li>例 4：次对角线行列式 = (-1)^{n(n-1)/2}∏a_i。</li>
+<li>例 5：上三角 = 对角线乘积。</li>
+<li>例 7：证明次对角线行列式公式。</li>
+<li>投票：求 a₄₃a₅₂… 系数 ⇒ <strong>-1</strong>。</li>
+<li>例 8：同款系数题（含该元两项，系数 -1）。</li>
+</ul>
+<h3>F. 2.2 行列式性质</h3>
+<ul>
+<li>例 1（5 阶数值）：D=|1 -1 2 -3 1; -3 3 -7 9 -5; 2 0 4 -2 1; 3 -5 7 -14 6; 4 -4 10 -10 2| ⇒ <strong>D=12</strong> 【已算】。（方法：性质 5 上三角化：r₂+3r₁、r₃-2r₁、r₄-3r₁、r₅-4r₁ 后逐步消元。）</li>
+<li>例 2（n 阶）：主对角线 a、其余全 b ⇒ <strong><a href="/assets/a-b">a+(n-1)b</a>^{n-1}</strong>。</li>
+<li>投票 ×3：性质应用判断（|kA|=kⁿ|A|、两行成比例为 0 等）。</li>
+</ul>
+<h3>G. 2.3 按行按列展开</h3>
+<ul>
+<li>例 1：爪型行列式计算。</li>
+<li>例 2：证明（分块三角 |A||B|）。</li>
+<li>例 3：|A B; C D|（A m 阶、B n 阶、C m×n）⇒ |A||B|。</li>
+<li>例 4：展开定理应用。</li>
+<li>例 2（递推）：Dₙ=|4 1 …; 3 4 1 …; …| ⇒ <strong>Dₙ=(3^{n+1}-1)/2</strong>（D₄=121）【已算】。</li>
+<li>例 3：换行换列化为爪型再展开。</li>
+<li>例 4：范德蒙德归纳证明。</li>
+<li>例 5：分块 4 阶 ⇒ <strong>-5</strong> 【已算】。</li>
+<li>例 6：4 阶数值 ⇒ <strong>40</strong> 【已算】。</li>
+<li>例 7：|Aᵀ+Bᵀ| 向量列表示 ⇒ <strong>56</strong>。</li>
+</ul>
+<h3>H. 2.4 行列式应用（课堂习题，全部已算）</h3>
+<ol>
+<li>若 Dₙ=|a_ij|=2，则 D=|-a_ij| ⇒ <strong>(-1)ⁿ·2</strong>（每行提 -1，共 n 行）。</li>
+<li>若 x₁,x₂,x₃ 是 x³+px+q=0 的三根，计算 |x₁ x₂ x₃; x₃ x₁ x₂; x₂ x₃ x₁| ⇒ <strong>0</strong>（Vieta：x₁+x₂+x₃=0 ⇒ x₁³+x₂³+x₃³-3x₁x₂x₃=0）。</li>
+<li>（课堂幻灯片中以图片呈现的证明/计算题，方法同上。）</li>
+<li>|a₁ 0 0 b₁; 0 a₂ b₂ 0; 0 b₃ a₃ 0; b₄ 0 0 a₄| ⇒ <strong>(a₁a₄-b₁b₄)(a₂a₃-b₂b₃)</strong> 【已算】。</li>
+<li>D₄=|a b c d; c b d a; d b c a; a b d c|，求 A₁₄+A₂₄+A₃₄+A₄₄ ⇒ <strong>0</strong> 【已算】（= 第 4 列换成全 1 列后的行列式，行变换得两行成比例/相同 ⇒ 0）。</li>
+<li>（判断题/填空题若干。）</li>
+<li>（图片题。）</li>
+<li>|0 x 0 y; y 0 x 0; 0 y 0 x; x 0 y 0| ⇒ <strong>-(x-y)²(x+y)²</strong> 【已算】（列重排后分块 |0 B; C 0| = (-1)⁴|B||C|，带一次列交换符号）。</li>
+<li>D₅=|1 1 2 3 1; 3 -1 -1 2 2; 2 3 -1 -1 0; 1 2 3 0 1; -2 2 1 1 0|，A_ij 为代数余子式，求 A₁₅+3A₂₅+2A₃₅-2A₅₅ ⇒ <strong>70</strong> 【已算】（第 5 列换成 (1,3,2,0,-2)ᵀ 后求行列式）。</li>
+<li>幂零相关证明题（i₁i₂…iₙ 排列形式）。</li>
+</ol>
+<hr>
+<h2>五、易错点汇总（高频踩坑）</h2>
+<ol>
+<li><strong>|kA|=kⁿ|A|</strong>，不是 k|A|（每行都提 k，共 n 行）。（2.2 推论 4）</li>
+<li><strong>(AB)ᵀ=BᵀAᵀ</strong> 反序；(AB)⁻¹=B⁻¹A⁻¹ 也反序。</li>
+<li><strong>AB=O 不能推出 A=O 或 B=O</strong>；A²=O ⇏ A=O；|AB|=0 ⇏ |A|=0 或 |B|=0（其实 |AB|=|A||B|=0 可推出其一为 0——但 AB=O 不能推出矩阵为零）。</li>
+<li><strong>(AB)^k ≠ A^kB^k</strong>（除非可交换）。</li>
+<li><strong>对角线法则只适用于 2、3 阶</strong>；4 阶以上必须用展开/性质。</li>
+<li><strong>一阶行列式 |a|=a</strong>，与绝对值记号区分。</li>
+<li><strong>Cramer 法则两个条件</strong>：方程数=未知量数且 D≠0；D=0 时无解或无穷多解，不可套公式。</li>
+<li><strong>伴随矩阵是&quot;转置&quot;排列</strong>：(j,i) 位置放 A_ij。</li>
+<li><strong>分块乘法内维匹配</strong>：A 的列分法必须与 B 的行分法相同；加法要分法一致。</li>
+<li><strong>初等行变换 = 左乘，初等列变换 = 右乘</strong>；混用时 (A,E)→(E,A⁻¹) 只能全程用行变换。</li>
+<li><strong>初等矩阵的逆仍是同类型初等矩阵</strong>（倍乘的逆是倍乘 1/k，倍加的逆是倍加 -k）。</li>
+<li><strong>不同型零矩阵不相等</strong>（O₂ 与 O₃ 不同）。</li>
+<li><strong>矩阵相等要求同型且对应元素相等</strong>。</li>
+<li><strong>|Aᵀ|=|A|</strong> 但 (Aᵀ)⁻¹=(A⁻¹)ᵀ 别写成 (A⁻¹)ᵀ=Aᵀ⁻¹ 的顺序错误。</li>
+<li><strong>异行乘异行余子式和 = 0</strong>（定理 2.4），同行展开才等于 D（定理 2.3）。</li>
+<li><strong>求 A⁻¹+B⁻¹ 类证明</strong>：插单位阵 E=A⁻¹A=B⁻¹B 凑出 (A+B)。</li>
+<li><strong>Ax=0 对任意 x ⇔ A=O</strong> 的证明技巧（E 按列分块）。</li>
+<li><strong>R(AB)≤min{R(A),R(B)}</strong>；AB=O ⇒ R(A)+R(B)≤n。</li>
+<li><strong>对称阵分解</strong>：A=(A+Aᵀ)/2+(A-Aᵀ)/2，反对称阵对角线元必为 0。</li>
+<li><strong>范德蒙德行列式下标顺序</strong>：∏_{1≤j&lt;i≤n}(x_i-x_j)，反了差符号 (-1)^{n(n-1)/2}。</li>
+<li>消元时<strong>主元为 0 要先换行</strong>（或说明存在非零主元）。</li>
+<li><strong>f(A) 与 g(A) 可交换，但 f(A) 与 g(B) 不可交换</strong>。</li>
+<li>求逆时 <strong>|A|≠0 才能用 A*/|A|</strong>；A* 可逆当且仅当 A 可逆，且 (A*)⁻¹=A/|A|。</li>
+<li><strong>2 阶行列式是面积，3 阶是体积</strong>，几何意义有助于判断符号（有向）。</li>
+<li>排列逆序数计算：数<strong>每个元素前面比它大的数码个数</strong>，不要数后面。</li>
+</ol>
+<hr>
+<h2>六、待复盘/存疑</h2>
+<ul>
+<li>2025第二讲例 4/5/6/7 的具体矩阵部分还原自图片，建议对照原幻灯片核对。</li>
+<li>2.4 课堂习题第 3、6、7、10 题图片中的中文题干未能完整还原，答案部分按同类题型给出，已标注。</li>
+<li>2.3 例 1 爪型行列式的具体元素（含 1/a、1/2、1/3 标注）未完全还原，仅确认题型与方法。</li>
+<li>第三章仅覆盖第一节（矩阵的秩）；3.2 节之后内容（线性方程组解的结构）不在本文件夹中。</li>
+</ul>
+</div>
+  <div class="post-nav">
+    <a href="/posts/linear-algebra-midterm-review/">← 线性代数期中复习手册</a>
+  </div>
+  <p style="margin-top:2rem"><a class="btn" href="/archive/">← 回到归档</a></p>
+</article>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>&copy; 2026 乐延</span>
+    <span>markdown &rarr; html &middot; git push &rarr; live</span>
+  </div>
+</footer>
+</body>
+</html>

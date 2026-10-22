@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>范德蒙德行列式与插值多项式的唯一性</title>
+<style>
+  :root{
+    --bg:#12151c; --panel:#1a1f29; --panel2:#222838; --line:#2e3646;
+    --txt:#e8ecf3; --dim:#9aa5b5; --acc:#6cb6ff; --acc2:#f0a35e; --ok:#7bd88f; --warn:#ff7b72;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;padding:20px;}
+  h1{font-size:18px;margin:0 0 4px}
+  .sub{color:var(--dim);font-size:13px;margin-bottom:14px}
+  .wrap{display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+  #view{flex:1;min-width:340px}
+  #side{flex:0 0 320px}
+  table.m{border-collapse:separate;border-spacing:4px;font-family:Consolas,monospace;font-size:15px;margin:6px 0}
+  table.m td{padding:6px 10px;text-align:center;background:var(--panel2);border-radius:6px;min-width:34px}
+  .cap{font-size:12.5px;color:var(--dim);margin:10px 0 4px}
+  .detline{font-family:Consolas,monospace;font-size:14px;line-height:2;color:var(--dim);background:var(--panel2);border-radius:10px;padding:12px;margin-top:6px}
+  .detline b{color:var(--acc2);font-size:16px}
+  .detline .bad{color:var(--warn)}
+  .note{font-size:13px;color:var(--dim);line-height:1.8;margin-top:12px}
+  .note em{color:var(--ok);font-style:normal}
+  svg{display:block;width:100%;height:auto;background:#0d1017;border-radius:10px;touch-action:none}
+</style>
+</head>
+<body>
+<h1>范德蒙德行列式 ≠ 0 ⇔ 插值多项式唯一</h1>
+<div class="sub">拖动 4 个点。拉格朗日插值：经过 n 个 x 互不相同的点，存在唯一的次数 ≤ n−1 的多项式。系数矩阵就是范德蒙德矩阵。</div>
+<div class="wrap">
+  <div class="card" id="view">
+    <svg id="svg" viewBox="0 0 600 420"></svg>
+  </div>
+  <div class="card" id="side">
+    <div class="cap">范德蒙德矩阵 V（每行 = [1, xᵢ, xᵢ², xᵢ³]）</div>
+    <table class="m" id="vm"></table>
+    <div class="detline" id="dline"></div>
+    <div class="note">
+      det V = ∏<sub>1≤j&lt;i≤n</sub>(x<sub>i</sub>−x<sub>j</sub>)。只要有两个点的横坐标相同（x<sub>i</sub>=x<sub>j</sub>），乘积里就出现 0 ⇒ <em>行列式为 0，唯一性被破坏</em>。<br>
+      这条性质是拉格朗日插值、多项式求值、Reed-Solomon 纠错码、DFT（n 次单位根）的共同数学基础。
+    </div>
+  </div>
+</div>
+
+<script>
+const svg=document.getElementById('svg');
+const NS="http://www.w3.org/2000/svg";
+// 视图坐标: x∈[-4,4] -> px 60..540 ; y∈[-3,3] -> py 370..50
+const X0=60,X1=540,Y0=370,Y1=50;
+const px=x=>X0+(x+4)/8*(X1-X0);
+const py=y=>Y0-(y+3)/6*(Y0-Y1);
+let pts=[
+  {x:-2.5,y:-1.5},{x:-0.8,y:1.2},{x:1.0,y:2.0},{x:2.6,y:-1.0}
+];
+function mk(t,at,p){const e=document.createElementNS(NS,t);for(const k in at)e.setAttribute(k,at[k]);(p||svg).appendChild(e);return e;}
+// 坐标轴与网格
+for(let i=-4;i<=4;i++){
+  mk('line',{x1:px(i),y1:Y1,x2:px(i),y2:Y0,stroke:'#1b2230','stroke-width':1});
+  mk('text',{x:px(i),y:Y0+18,'font-size':11,fill:'#5a6577','text-anchor':'middle'}).textContent=i;
+}
+for(let j=-3;j<=3;j++){
+  mk('line',{x1:X0,y1:py(j),x2:X1,y2:py(j),stroke:'#1b2230','stroke-width':1});
+  mk('text',{x:X0-10,y:py(j)+4,'font-size':11,fill:'#5a6577','text-anchor':'end'}).textContent=j;
+}
+mk('line',{x1:X0,y1:py(0),x2:X1,y2:py(0),stroke:'#3a4658','stroke-width':1.5});
+mk('line',{x1:px(0),y1:Y1,x2:px(0),y2:Y0,stroke:'#3a4658','stroke-width':1.5});
+mk('text',{x:X1-6,y:Y0+18,'font-size':11,fill:'#5a6577','text-anchor':'end'}).textContent='x';
+mk('text',{x:X0-10,y:Y1+8,'font-size':11,fill:'#5a6577','text-anchor':'end'}).textContent='y';
+const curve=mk('path',{fill:'none',stroke:'#6cb6ff','stroke-width':2.5});
+const handles=[];
+pts.forEach((p,i)=>{
+  const c=mk('circle',{r:10,fill:'#f0a35e',stroke:'#12151c','stroke-width':2,cursor:'grab'});
+  c.addEventListener('pointerdown',()=>drag=i);
+  handles.push(c);
+});
+let drag=null;
+function toData(e){
+  const pt=svg.createSVGPoint();pt.x=e.clientX;pt.y=e.clientY;
+  const q=pt.matrixTransform(svg.getScreenCTM().inverse());
+  return {x:Math.round(((q.x-X0)/(X1-X0)*8-4)*10)/10, y:Math.round((-(q.y-Y0)/(Y0-Y1)*6+3)*10)/10};
+}
+svg.addEventListener('pointermove',e=>{
+  if(drag===null)return;
+  const d=toData(e);
+  pts[drag].x=d.x;pts[drag].y=d.y;
+  render();
+});
+svg.addEventListener('pointerup',()=>drag=null);
+svg.addEventListener('pointerleave',()=>drag=null);
+
+function vandermondeDet(ps){
+  // 4x4 vandermonde: prod_{1<=j<i<=4} (x_i - x_j)
+  let d=1;
+  for(let i=1;i<4;i++)for(let j=0;j<i;j++) d*=(ps[i].x-ps[j].x);
+  return d;
+}
+function lagrange(ps,x){
+  let n=ps.length, total=0;
+  for(let i=0;i<n;i++){
+    let li=1;
+    for(let j=0;j<n;j++) if(j!==i) li*= (x-ps[j].x)/(ps[i].x-ps[j].x);
+    total += ps[i].y*li;
+  }
+  return total;
+}
+function render(){
+  handles.forEach((h,i)=>{h.setAttribute('cx',px(pts[i].x));h.setAttribute('cy',py(pts[i].y));});
+  // 曲线
+  let dAttr="", started=false;
+  for(let X=X0;X<=X1;X+=4){
+    const x=(X-X0)/(X1-X0)*8-4;
+    const y=lagrange(pts,x);
+    const Y=py(y);
+    if(!isFinite(Y)||Y<Y1-60||Y>Y0+60){started=false;continue;}
+    dAttr += (started?' L':' M')+X+','+Y;
+    started=true;
+  }
+  curve.setAttribute('d',dAttr);
+  // 范德蒙德矩阵
+  let vm="";
+  for(let i=0;i<4;i++){
+    vm+="<tr>";
+    for(let j=0;j<4;j++){
+      const v=Math.pow(pts[i].x,j);
+      vm+=`<td>${Math.abs(v)<0.05?'0':v.toFixed(2)}</td>`;
+    }
+    vm+="</tr>";
+  }
+  document.getElementById('vm').innerHTML=vm;
+  const det=vandermondeDet(pts);
+  const dl=document.getElementById('dline');
+  if(Math.abs(det)<1e-6){
+    dl.innerHTML=`det V = <b class="bad">0</b><br>有两点横坐标相同（或极接近）⇒ <span class="bad">唯一性不成立</span>：经过它们的插值多项式不唯一（或者说这两个点不能被同一条函数图像同时经过的「曲线」唯一确定——注意竖直线的反例）。`;
+  }else{
+    dl.innerHTML=`det V = ∏(xᵢ−xⱼ) = <b>${det.toFixed(3)}</b><br>V 可逆 ⇒ 系数方程组有唯一解 ⇒ <em>插值多项式唯一</em>（次数 ≤ 3）。`;
+  }
+}
+render();
+</script>
+</body>
+</html>

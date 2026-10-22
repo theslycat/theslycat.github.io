@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>三对角行列式递推 · Dₙ = (3ⁿ⁺¹−1)/2</title>
+<style>
+  :root{
+    --bg:#12151c; --panel:#1a1f29; --panel2:#222838; --line:#2e3646;
+    --txt:#e8ecf3; --dim:#9aa5b5; --acc:#6cb6ff; --acc2:#f0a35e; --ok:#7bd88f;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;padding:20px;}
+  h1{font-size:18px;margin:0 0 4px}
+  .sub{color:var(--dim);font-size:13px;margin-bottom:14px}
+  .wrap{display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+  #left{flex:0 0 360px}
+  #right{flex:1;min-width:300px}
+  table.m{border-collapse:separate;border-spacing:3px;font-family:Consolas,monospace;font-size:15px}
+  table.m td{width:32px;height:28px;text-align:center;background:var(--panel2);border-radius:5px}
+  table.m td.zero{opacity:.18}
+  table.m td.hl{background:#31435f;color:var(--acc)}
+  table.m td.dim{opacity:.35}
+  label{font-size:13px;color:var(--dim);display:flex;justify-content:space-between}
+  label span{color:var(--acc);font-family:Consolas,monospace}
+  input[type=range]{width:100%;accent-color:#6cb6ff}
+  .btns{display:flex;gap:8px;margin:14px 0;flex-wrap:wrap}
+  button{background:var(--panel2);color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:8px 13px;font-size:13px;cursor:pointer}
+  button:hover{border-color:var(--acc);color:var(--acc)}
+  .steps{font-size:13.5px;line-height:2.1;color:var(--dim);background:var(--panel2);border-radius:10px;padding:14px;font-family:Consolas,monospace}
+  .steps b{color:var(--acc2)}
+  .steps .ok{color:var(--ok)}
+  .final{margin-top:12px;font-size:15px;color:var(--txt);font-family:Consolas,monospace}
+  .final b{color:var(--ok);font-size:19px}
+  .note{font-size:13px;color:var(--dim);line-height:1.8;margin-top:12px}
+  .note em{color:var(--ok);font-style:normal}
+</style>
+</head>
+<body>
+<h1>递推法求行列式：按第一列展开，降阶找规律</h1>
+<div class="sub">教材例（2.3 例2）：主对角线 4、上次对角线 1、下次对角线 3 的 n 阶三对角行列式。按第一列展开得二阶递推，再用「差分的差分」求出闭式。</div>
+<div class="wrap">
+  <div class="card" id="left">
+    <label>阶数 n = <span id="vn">4</span></label>
+    <input type="range" id="sn" min="2" max="8" step="1" value="4">
+    <div class="btns">
+      <button id="play">▶ 播放推导动画</button>
+      <button id="reset">重置</button>
+    </div>
+    <div id="matbox" style="margin-top:6px"></div>
+    <div class="final" id="val"></div>
+  </div>
+  <div class="card" id="right">
+    <div class="steps" id="stepsbox">
+      拖动滑块改变阶数 n。点击「播放推导动画」逐步展示：<br>
+      ① 按第一列展开 ⇒ Dₙ = 4Dₙ₋₁ − 3Dₙ₋₂<br>
+      ② 一阶差分：Dₙ − Dₙ₋₁ = 3(Dₙ₋₁ − Dₙ₋₂)<br>
+      ③ 递推到底 ⇒ Dₙ − Dₙ₋₁ = 3ⁿ<br>
+      ④ 另一路：Dₙ − 3Dₙ₋₁ = 1<br>
+      ⑤ 联立 ⇒ Dₙ = (3<sup>n+1</sup> − 1)/2
+    </div>
+    <div class="note">
+      关键技巧：对递推式<em>再作差</em>，把二阶递推化成一阶。D₁ = 4，D₂ = 13 是递推的种子。<br>
+      验证：n=4 时 D₄ = (3⁵−1)/2 = <em>121</em> ✓（已用 sympy 复核）。
+    </div>
+  </div>
+</div>
+
+<script>
+let n = 4;
+const matbox = document.getElementById('matbox');
+const valEl = document.getElementById('val');
+const stepsbox = document.getElementById('stepsbox');
+
+function matrixHTML(N, hi){
+  // hi: {row,col} 高亮
+  let h = `<table class="m"><tr><td style="background:none;width:auto;color:var(--dim);font-size:11px">D<sub>${N}</sub>=</td>`;
+  for(let r=0;r<N;r++){
+    if(r>0) h+="</tr><tr>";
+    for(let c=0;c<N;c++){
+      let v=0, cls="zero";
+      if(r===c){v=4;cls="";}
+      else if(c===r+1){v=1;cls="";}
+      else if(c===r-1){v=3;cls="";}
+      if(hi && hi.r===r && hi.c===c) cls+=" hl";
+      if(hi && hi.dimRows && hi.dimRows.includes(r)) cls+=" dim";
+      h+=`<td class="${cls}">${v}</td>`;
+    }
+  }
+  return h+"</tr></table>";
+}
+function Dn(N){
+  if(N===1) return 4;
+  if(N===2) return 13;
+  return 4*Dn(N-1)-3*Dn(N-2);
+}
+function render(){
+  document.getElementById('vn').textContent=n;
+  matbox.innerHTML = matrixHTML(n, playState.hi);
+  const d=Dn(n), f=(Math.pow(3,n+1)-1)/2;
+  valEl.innerHTML = `D<sub>${n}</sub> = <b>${d}</b> ｜ 公式 (3<sup>${n+1}</sup>−1)/2 = <b>${f}</b> ${d===f?'✓':'✗'}`;
+}
+document.getElementById('sn').addEventListener('input',e=>{n=+e.target.value;render();});
+
+let playState={hi:null};
+let timer=null;
+const script=[
+  {hi:{r:0,c:0}, html:'① 按<b>第一列</b>展开（第一列只有 a₁₁=4 和 a₂₁=3 非零）：<br>Dₙ = 4·M₁₁ − 3·M₂₁<br>M₁₁ = Dₙ₋₁（去掉第 1 行第 1 列正是同型 n−1 阶）<br>M₂₁ 展开后还剩一个 3 和一个 Dₙ₋₂<br>⇒ <b>Dₙ = 4Dₙ₋₁ − 3Dₙ₋₂</b>（n ≥ 3，种子 D₁=4，D₂=13）'},
+  {hi:null, html:'② 对递推式<b>再作差</b>：<br>Dₙ − Dₙ₋₁ = (4Dₙ₋₁ − 3Dₙ₋₂) − Dₙ₋₁<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 3(Dₙ₋₁ − Dₙ₋₂)<br>令 Δₙ = Dₙ − Dₙ₋₁，则 <b>Δₙ = 3Δₙ₋₁</b>（等比！）'},
+  {hi:null, html:'③ 递推到底：<br>Δₙ = 3Δₙ₋₁ = 3²Δₙ₋₂ = … = 3<sup>n−2</sup>·Δ₂<br>Δ₂ = D₂ − D₁ = 13 − 4 = 9 = 3²<br>⇒ <b>Δₙ = 3ⁿ</b>'},
+  {html:'④ 换一路组合（消掉 Dₙ₋₂）：<br>Dₙ − 3Dₙ₋₁ = (4Dₙ₋₁ − 3Dₙ₋₂) − 3Dₙ₋₁ = Dₙ₋₁ − 3Dₙ₋₂<br>每步都相等 ⇒ 一路推到 D₂ − 3D₁ = 13 − 12 = <b>1</b><br>即 Dₙ − 3Dₙ₋₁ = 1'},
+  {html:'⑤ 联立 ③④：<br>Δₙ = Dₙ − Dₙ₋₁ = 3ⁿ<br>Dₙ − 3Dₙ₋₁ = 1 ⇒ Dₙ₋₁ = (Dₙ − 1)/3<br>代入：Dₙ − (Dₙ−1)/3 = 3ⁿ ⇒ 2Dₙ = 3<sup>n+1</sup> − 1<br><span class="ok">⇒ Dₙ = (3<sup>n+1</sup> − 1)/2</span>'}
+];
+let si=0;
+document.getElementById('play').onclick=function(){
+  if(timer){clearInterval(timer);timer=null;this.textContent='▶ 播放推导动画';return;}
+  this.textContent='⏸ 停止';
+  si=0;
+  const show=()=>{
+    if(si>=script.length){clearInterval(timer);timer=null;
+      document.getElementById('play').textContent='▶ 播放推导动画';
+      stepsbox.innerHTML='推导完成 ✓ 拖动上方滑块，用不同 n 验证公式。';
+      return;}
+    playState.hi=script[si].hi;
+    stepsbox.innerHTML=script[si].html;
+    render();
+    si++;
+  };
+  show();
+  timer=setInterval(show,2200);
+};
+document.getElementById('reset').onclick=()=>{
+  if(timer){clearInterval(timer);timer=null;document.getElementById('play').textContent='▶ 播放推导动画';}
+  playState.hi=null;
+  stepsbox.innerHTML='拖动滑块改变阶数 n。点击「播放推导动画」逐步展示：<br>① 按第一列展开 ⇒ Dₙ = 4Dₙ₋₁ − 3Dₙ₋₂<br>② 一阶差分：Dₙ − Dₙ₋₁ = 3(Dₙ₋₁ − Dₙ₋₂)<br>③ 递推到底 ⇒ Dₙ − Dₙ₋₁ = 3ⁿ<br>④ 另一路：Dₙ − 3Dₙ₋₁ = 1<br>⑤ 联立 ⇒ Dₙ = (3<sup>n+1</sup> − 1)/2';
+  render();
+};
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>矩阵乘法就是线性变换 · 网格变形演示</title>
+<style>
+  :root{
+    --bg:#12151c; --panel:#1a1f29; --panel2:#222838; --line:#2e3646;
+    --txt:#e8ecf3; --dim:#9aa5b5; --acc:#6cb6ff; --acc2:#f0a35e; --ok:#7bd88f;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;padding:20px;}
+  h1{font-size:18px;margin:0 0 4px}
+  .sub{color:var(--dim);font-size:13px;margin-bottom:14px}
+  .wrap{display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+  #ctl{flex:0 0 300px}
+  #view{flex:1;min-width:320px}
+  label{display:flex;justify-content:space-between;font-size:13px;color:var(--dim);margin:10px 0 2px}
+  label span{color:var(--acc);font-family:Consolas,monospace}
+  input[type=range]{width:100%;accent-color:#6cb6ff}
+  .presets{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+  button{background:var(--panel2);color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:7px 12px;font-size:13px;cursor:pointer}
+  button:hover{border-color:var(--acc);color:var(--acc)}
+  .det{margin-top:16px;font-family:Consolas,monospace;font-size:14px;line-height:1.9;color:var(--dim)}
+  .det b{color:var(--acc2);font-size:16px}
+  .info{margin-top:10px;font-size:13px;color:var(--dim);line-height:1.7}
+  .info em{color:var(--ok);font-style:normal}
+  svg{display:block;width:100%;height:auto;background:#0d1017;border-radius:10px}
+</style>
+</head>
+<body>
+<h1>矩阵 = 线性变换：看网格如何被「搬动」</h1>
+<div class="sub">A 的两个列向量就是基向量 e₁=(1,0)、e₂=(0,1) 变换后的落点。|det A| = 网格单位正方形面积被拉伸的倍数。</div>
+<div class="wrap">
+  <div class="card" id="ctl">
+    <label>a（A 第一列）<span id="va">1.0</span></label>
+    <input type="range" id="sa" min="-2" max="2" step="0.1" value="1">
+    <label>b（A 第一列）<span id="vb">0.0</span></label>
+    <input type="range" id="sb" min="-2" max="2" step="0.1" value="0">
+    <label>c（A 第二列）<span id="vc">0.0</span></label>
+    <input type="range" id="sc" min="-2" max="2" step="0.1" value="0">
+    <label>d（A 第二列）<span id="vd">1.0</span></label>
+    <input type="range" id="sd" min="-2" max="2" step="0.1" value="1">
+    <div class="presets">
+      <button data-p="1,0,0,1">单位</button>
+      <button data-p="0,1,-1,0">旋转 90°</button>
+      <button data-p="1,0,1,1">剪切</button>
+      <button data-p="1,0,0,-1">翻转</button>
+      <button data-p="1,1,1,-1">投影(退化)</button>
+      <button data-p="2,0,0,2">放大 2 倍</button>
+    </div>
+    <div class="det">
+      A = [ [<b id="ma">1</b>, <b id="mc">0</b>],<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<b id="mb">0</b>, <b id="md">1</b>] ]<br>
+      det A = ad − bc = <b id="detv">1.0</b><br>
+      |det A| = 面积放大 <b id="areav">1.0</b> 倍
+    </div>
+    <div class="info" id="msg"></div>
+  </div>
+  <div class="card" id="view">
+    <svg id="svg" viewBox="-160 -120 320 240"></svg>
+  </div>
+</div>
+
+<script>
+const S = 40; // 每单位像素
+const svg = document.getElementById('svg');
+const NS = "http://www.w3.org/2000/svg";
+let A = [1,0,0,1]; // [a,b,c,d]
+
+function mk(tag, attrs, parent){
+  const e = document.createElementNS(NS, tag);
+  for(const k in attrs) e.setAttribute(k, attrs[k]);
+  (parent||svg).appendChild(e);
+  return e;
+}
+function arrow(id, color){
+  const g = mk('g', {});
+  const line = mk('line', {x1:0,y1:0,x2:0,y2:0,stroke:color,'stroke-width':3,'stroke-linecap':'round'}, g);
+  const head = mk('polygon', {points:'0,0',fill:color}, g);
+  g.dataset.line = ''; g._line = line; g._head = head;
+  return g;
+}
+function setArrow(g, x1,y1,x2,y2){
+  g._line.setAttribute('x1',x1); g._line.setAttribute('y1',y1);
+  g._line.setAttribute('x2',x2); g._line.setAttribute('y2',y2);
+  const ang = Math.atan2(y2-y1, x2-x1);
+  const s = 8;
+  const p1 = [x2, y2];
+  const p2 = [x2 - s*Math.cos(ang-0.4), y2 - s*Math.sin(ang-0.4)];
+  const p3 = [x2 - s*Math.cos(ang+0.4), y2 - s*Math.sin(ang+0.4)];
+  g._head.setAttribute('points', p1.join(',')+' '+p2.join(',')+' '+p3.join(','));
+}
+
+// 静态层：坐标轴 + 原始网格
+const layer0 = mk('g',{});
+for(let i=-3;i<=3;i++){
+  mk('line',{x1:i*S,y1:-3*S,x2:i*S,y2:3*S,stroke:'#1e2530','stroke-width':1},layer0);
+  mk('line',{x1:-3*S,y1:i*S,x2:3*S,y2:i*S,stroke:'#1e2530','stroke-width':1},layer0);
+}
+mk('line',{x1:-150,y1:0,x2:150,y2:0,stroke:'#3a4658','stroke-width':1.5},layer0);
+mk('line',{x1:0,y1:-110,x2:0,y2:110,stroke:'#3a4658','stroke-width':1.5},layer0);
+
+// 原始基向量（虚线）
+const e1o = arrow(); const e2o = arrow();
+setArrow(e1o,0,0,S,0); setArrow(e2o,0,0,0,S);
+e1o._line.setAttribute('stroke-dasharray','4 3'); e1o._line.setAttribute('stroke','#8a5a2b');
+e1o._head.setAttribute('fill','#8a5a2b');
+e2o._line.setAttribute('stroke-dasharray','4 3'); e2o._line.setAttribute('stroke','#8a5a2b');
+e2o._head.setAttribute('fill','#8a5a2b');
+
+// 变换层：网格 + 平行四边形 + 基向量像
+const layer1 = mk('g',{});
+const gridLines = [];
+for(let i=-3;i<=3;i++){
+  gridLines.push([mk('line',{stroke:'#2b3a55','stroke-width':1},layer1), mk('line',{stroke:'#2b3a55','stroke-width':1},layer1)]);
+}
+const para = mk('polygon',{fill:'rgba(240,163,94,.18)',stroke:'#f0a35e','stroke-width':2},layer1);
+const e1 = arrow(); const e2 = arrow();
+e1._line.setAttribute('stroke','#f0a35e'); e1._head.setAttribute('fill','#f0a35e');
+e2._line.setAttribute('stroke','#6cb6ff'); e2._head.setAttribute('fill','#6cb6ff');
+
+// 文字标注
+const txt = mk('text',{x:8,y:-100,'font-size':11,fill:'#9aa5b5'},svg);
+txt.textContent = '虚线=原来的基向量';
+
+function fmt(v){ return (Math.round(v*10)/10).toString(); }
+
+function render(){
+  const [a,b,c,d] = A;
+  document.getElementById('va').textContent = fmt(a);
+  document.getElementById('vb').textContent = fmt(b);
+  document.getElementById('vc').textContent = fmt(c);
+  document.getElementById('vd').textContent = fmt(d);
+  document.getElementById('ma').textContent = fmt(a);
+  document.getElementById('mb').textContent = fmt(b);
+  document.getElementById('mc').textContent = fmt(c);
+  document.getElementById('md').textContent = fmt(d);
+  const det = a*d-b*c;
+  document.getElementById('detv').textContent = fmt(det);
+  document.getElementById('areav').textContent = fmt(Math.abs(det));
+  // 变换网格线
+  const T = (x,y)=>[a*x+c*y, b*x+d*y];
+  for(let i=-3;i<=3;i++){
+    let [x1,y1]=T(-3,i), [x2,y2]=T(3,i);
+    gridLines[i+3][0].setAttribute('x1',x1*S); gridLines[i+3][0].setAttribute('y1',-y1*S);
+    gridLines[i+3][0].setAttribute('x2',x2*S); gridLines[i+3][0].setAttribute('y2',-y2*S);
+    [x1,y1]=T(i,-3); [x2,y2]=T(i,3);
+    gridLines[i+3][1].setAttribute('x1',x1*S); gridLines[i+3][1].setAttribute('y1',-y1*S);
+    gridLines[i+3][1].setAttribute('x2',x2*S); gridLines[i+3][1].setAttribute('y2',-y2*S);
+  }
+  const [ux,uy]=T(1,0), [vx,vy]=T(0,1);
+  setArrow(e1,0,0,ux*S,-uy*S);
+  setArrow(e2,0,0,vx*S,-vy*S);
+  para.setAttribute('points', `0,0 ${ux*S},${-uy*S} ${(ux+vx)*S},${-(uy+vy)*S} ${vx*S},${-vy*S}`);
+  const msg = document.getElementById('msg');
+  if(Math.abs(det)<1e-9){
+    msg.innerHTML = 'det A = 0：网格被压成一条线（或一个点），<em>变换不可逆</em>——这就是「奇异矩阵」。';
+  } else if(det<0){
+    msg.innerHTML = 'det A &lt; 0：变换把平面「翻了个面」（顺时针），有向面积为负。';
+  } else {
+    msg.innerHTML = '橙 parallelogram 面积 = |det A|；蓝色向量 = e₂ 的像。';
+  }
+}
+['sa','sb','sc','sd'].forEach((id,i)=>{
+  document.getElementById(id).addEventListener('input', e=>{
+    A[i] = parseFloat(e.target.value); render();
+  });
+});
+document.querySelectorAll('.presets button').forEach(btn=>{
+  btn.onclick = ()=>{
+    A = btn.dataset.p.split(',').map(Number);
+    document.getElementById('sa').value=A[0];
+    document.getElementById('sb').value=A[1];
+    document.getElementById('sc').value=A[2];
+    document.getElementById('sd').value=A[3];
+    render();
+  };
+});
+render();
+</script>
+</body>
+</html>

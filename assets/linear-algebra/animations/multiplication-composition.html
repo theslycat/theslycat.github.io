@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>矩阵乘法 = 变换复合 · 为什么 AB ≠ BA</title>
+<style>
+  :root{
+    --bg:#12151c; --panel:#1a1f29; --panel2:#222838; --line:#2e3646;
+    --txt:#e8ecf3; --dim:#9aa5b5; --acc:#6cb6ff; --acc2:#f0a35e; --ok:#7bd88f;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;padding:20px;}
+  h1{font-size:18px;margin:0 0 4px}
+  .sub{color:var(--dim);font-size:13px;margin-bottom:14px}
+  .wrap{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-start}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px}
+  .scene{flex:1;min-width:250px}
+  .scene h3{margin:0 0 6px;font-size:14px;color:var(--acc2);font-weight:600}
+  .scene .who{font-size:12px;color:var(--dim);margin-bottom:8px;line-height:1.6}
+  #ctl{flex:0 0 300px}
+  .mrow{display:flex;gap:14px;align-items:center;font-family:Consolas,monospace;font-size:14px;margin:6px 0}
+  .mval{background:var(--panel2);border-radius:8px;padding:8px 12px;line-height:1.7}
+  .mval b{color:var(--acc)}
+  .btns{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+  button{background:var(--panel2);color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:8px 12px;font-size:13px;cursor:pointer}
+  button:hover{border-color:var(--acc);color:var(--acc)}
+  .note{margin-top:12px;font-size:13px;color:var(--dim);line-height:1.9}
+  .note em{color:var(--ok);font-style:normal}
+  svg{display:block;width:100%;height:auto;background:#0d1017;border-radius:10px}
+</style>
+</head>
+<body>
+<h1>矩阵乘法 = 线性变换的复合</h1>
+<div class="sub">先施加 A 再施加 B，写作 BA（右边先作用）。绝大多数情况下 BA ≠ AB：先穿袜子再穿鞋，顺序不能反。</div>
+<div class="wrap">
+  <div class="card scene" id="sc1">
+    <h3>原始网格</h3>
+    <div class="who">单位正方形</div>
+    <svg viewBox="-120 -95 240 190"></svg>
+  </div>
+  <div class="card scene" id="sc2">
+    <h3>先 A 后 B（结果 = BA）</h3>
+    <div class="who">蓝色 → 橙色，最终紫色</div>
+    <svg viewBox="-120 -95 240 190"></svg>
+  </div>
+  <div class="card scene" id="sc3">
+    <h3>先 B 后 A（结果 = AB）</h3>
+    <div class="who">橙色 → 蓝色，最终紫色</div>
+    <svg viewBox="-120 -95 240 190"></svg>
+  </div>
+  <div class="card" id="ctl">
+    <div class="mrow">A = <span class="mval">[ <b>1</b> <b>1</b> ]<br>&nbsp;&nbsp;&nbsp;&nbsp;[ <b>0</b> <b>1</b> ]</span>（剪切）</div>
+    <div class="mrow">B = <span class="mval">[ <b>1</b> <b>0</b> ]<br>&nbsp;&nbsp;&nbsp;&nbsp;[ <b>1</b> <b>1</b> ]</span>（反向剪切）</div>
+    <div class="mrow">BA = <span class="mval" id="ba"></span></div>
+    <div class="mrow">AB = <span class="mval" id="ab"></span></div>
+    <div class="btns">
+      <button id="swap">⇄ 交换 A、B 试试</button>
+      <button id="rot">换成旋转 × 剪切</button>
+    </div>
+    <div class="note" id="msg"></div>
+  </div>
+</div>
+
+<script>
+const S=34;
+const NS="http://www.w3.org/2000/svg";
+const svgs=[document.querySelectorAll('svg')[0],document.querySelectorAll('svg')[1],document.querySelectorAll('svg')[2]];
+let A=[1,0,1,1], B=[1,1,0,1]; // [列1x,列1y,列2x,列2y] => [[A0,A2],[A1,A3]]
+
+function mk(t,at,p){const e=document.createElementNS(NS,t);for(const k in at)e.setAttribute(k,at[k]);(p||svg).appendChild(e);return e;}
+function mul(M,N){ // M·N
+  return [
+    M[0]*N[0]+M[2]*N[1], M[1]*N[0]+M[3]*N[1],
+    M[0]*N[2]+M[2]*N[3], M[1]*N[2]+M[3]*N[3]
+  ];
+}
+function setupScene(svg){
+  for(let i=-3;i<=3;i++){
+    mk('line',{x1:i*S,y1:-2.6*S,x2:i*S,y2:2.6*S,stroke:'#1b2230','stroke-width':1},svg);
+    mk('line',{x1:-3.4*S,y1:i*S,x2:3.4*S,y2:i*S,stroke:'#1b2230','stroke-width':1},svg);
+  }
+  mk('line',{x1:-110,y1:0,x2:110,y2:0,stroke:'#3a4658','stroke-width':1.2},svg);
+  mk('line',{x1:0,y1:-85,x2:0,y2:85,stroke:'#3a4658','stroke-width':1.2},svg);
+  const g=mk('g',{},svg);
+  const lines=[];
+  for(let i=-3;i<=3;i++){
+    lines.push([mk('line',{stroke:'#2b3a55','stroke-width':1},g), mk('line',{stroke:'#2b3a55','stroke-width':1},g)]);
+  }
+  const para=mk('polygon',{fill:'rgba(108,182,255,.10)',stroke:'rgba(108,182,255,.5)','stroke-width':1.5},g);
+  const e1=mk('line',{stroke:'#f0a35e','stroke-width':2.5,'stroke-linecap':'round'},g);
+  const e1h=mk('polygon',{fill:'#f0a35e'},g);
+  const e2=mk('line',{stroke:'#6cb6ff','stroke-width':2.5,'stroke-linecap':'round'},g);
+  const e2h=mk('polygon',{fill:'#6cb6ff'},g);
+  return {g,lines,para,e1,e1h,e2,e2h};
+}
+function setArrow(l,h,x1,y1,x2,y2){
+  l.setAttribute('x1',x1);l.setAttribute('y1',y1);l.setAttribute('x2',x2);l.setAttribute('y2',y2);
+  const ang=Math.atan2(y2-y1,x2-x1),s=8;
+  h.setAttribute('points',`${x2},${y2} ${x2-s*Math.cos(ang-0.45)},${y2-s*Math.sin(ang-0.45)} ${x2-s*Math.cos(ang+0.45)},${y2-s*Math.sin(ang+0.45)}`);
+}
+function draw(sc,M){
+  const T=(x,y)=>[M[0]*x+M[2]*y, M[1]*x+M[3]*y];
+  for(let i=-3;i<=3;i++){
+    let [x1,y1]=T(-3,i),[x2,y2]=T(3,i);
+    sc.lines[i+3][0].setAttribute('x1',x1*S);sc.lines[i+3][0].setAttribute('y1',-y1*S);
+    sc.lines[i+3][0].setAttribute('x2',x2*S);sc.lines[i+3][0].setAttribute('y2',-y2*S);
+    [x1,y1]=T(i,-3);[x2,y2]=T(i,3);
+    sc.lines[i+3][1].setAttribute('x1',x1*S);sc.lines[i+3][1].setAttribute('y1',-y1*S);
+    sc.lines[i+3][1].setAttribute('x2',x2*S);sc.lines[i+3][1].setAttribute('y2',-y2*S);
+  }
+  const [ux,uy]=T(1,0),[vx,vy]=T(0,1);
+  setArrow(sc.e1,sc.e1h,0,0,ux*S,-uy*S);
+  setArrow(sc.e2,sc.e2h,0,0,vx*S,-vy*S);
+  sc.para.setAttribute('points',`0,0 ${ux*S},${-uy*S} ${(ux+vx)*S},${-(uy+vy)*S} ${vx*S},${-vy*S}`);
+}
+const scenes=svgs.map(setupScene);
+function mstr(M){
+  const f=x=>(Math.round(x*100)/100);
+  return `[ ${f(M[0])} ${f(M[2])} ]<br>&nbsp;&nbsp;&nbsp;&nbsp;[ ${f(M[1])} ${f(M[3])} ]`;
+}
+function render(){
+  draw(scenes[0],[1,0,0,1]);
+  draw(scenes[1],mul(B,A)); // 先A后B = B·A
+  draw(scenes[2],mul(A,B)); // 先B后A = A·B
+  document.getElementById('ba').innerHTML=mstr(mul(B,A));
+  document.getElementById('ab').innerHTML=mstr(mul(A,B));
+  const BA=mul(B,A), AB=mul(A,B);
+  const same=BA.every((v,i)=>Math.abs(v-AB[i])<1e-9);
+  const msg=document.getElementById('msg');
+  if(same){
+    msg.innerHTML='此时 <em>AB = BA</em>（A、B 可交换）——特殊情形，多数矩阵并不满足。';
+  }else{
+    msg.innerHTML='注意两张最终图<em>明显不同</em>：BA ≠ AB。所以 (AB)ᵀ = BᵀAᵀ、(AB)⁻¹ = B⁻¹A⁻¹ 都是「反序」的——因为乘法顺序不可交换。';
+  }
+}
+document.getElementById('swap').onclick=()=>{[A,B]=[B,A];render();};
+document.getElementById('rot').onclick=()=>{
+  A=[Math.cos(Math.PI/3),Math.sin(Math.PI/3),-Math.sin(Math.PI/3),Math.cos(Math.PI/3)]; // 旋转60°
+  B=[1,0,1,1]; // 剪切
+  render();
+};
+render();
+</script>
+</body>
+</html>

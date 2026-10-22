@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>逆矩阵 = 撤销变换 · AA⁻¹ = E 动画</title>
+<style>
+  :root{
+    --bg:#12151c; --panel:#1a1f29; --panel2:#222838; --line:#2e3646;
+    --txt:#e8ecf3; --dim:#9aa5b5; --acc:#6cb6ff; --acc2:#f0a35e; --ok:#7bd88f;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;padding:20px;}
+  h1{font-size:18px;margin:0 0 4px}
+  .sub{color:var(--dim);font-size:13px;margin-bottom:14px}
+  .wrap{display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+  #ctl{flex:0 0 330px}
+  #view{flex:1;min-width:320px}
+  label{display:flex;justify-content:space-between;font-size:13px;color:var(--dim);margin:8px 0 2px}
+  label span{color:var(--acc);font-family:Consolas,monospace}
+  input[type=range]{width:100%;accent-color:#6cb6ff}
+  .btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+  button{background:var(--panel2);color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:8px 13px;font-size:13px;cursor:pointer}
+  button:hover{border-color:var(--acc);color:var(--acc)}
+  .formula{margin-top:14px;font-family:Consolas,monospace;font-size:14px;line-height:2;color:var(--dim);background:var(--panel2);border-radius:10px;padding:12px}
+  .formula b{color:var(--acc2)}
+  .info{margin-top:12px;font-size:13px;color:var(--dim);line-height:1.8}
+  .info em{color:var(--ok);font-style:normal}
+  svg{display:block;width:100%;height:auto;background:#0d1017;border-radius:10px}
+</style>
+</head>
+<body>
+<h1>逆矩阵 = 把变换「撤销」</h1>
+<div class="sub">若 A 把网格变成平行四边形，则 A⁻¹ 把它变回原样：A⁻¹A = AA⁻¹ = E。det A = 0 时网格被压扁，无法撤销（不可逆）。</div>
+<div class="wrap">
+  <div class="card" id="ctl">
+    <label>a<span id="va">1.5</span></label><input type="range" id="sa" min="-2" max="2" step="0.1" value="1.5">
+    <label>b<span id="vb">0.0</span></label><input type="range" id="sb" min="-2" max="2" step="0.1" value="0">
+    <label>c<span id="vc">0.5</span></label><input type="range" id="sc" min="-2" max="2" step="0.1" value="0.5">
+    <label>d<span id="vd">1.0</span></label><input type="range" id="sd" min="-2" max="2" step="0.1" value="1">
+    <div class="btns">
+      <button class="p" id="playBtn">▶ 播放：A 然后 A⁻¹</button>
+      <button id="reset">重置</button>
+    </div>
+    <div class="formula">
+      A⁻¹ = 1/(ad−bc) · [[d, −b], [−c, a]]<br>
+      det A = <b id="detv">1.50</b> ｜ det A⁻¹ = <b id="detinv">0.67</b>
+    </div>
+    <div class="info" id="msg"></div>
+  </div>
+  <div class="card" id="view">
+    <svg id="svg" viewBox="-170 -130 340 260"></svg>
+  </div>
+</div>
+
+<script>
+const S = 40;
+const svg = document.getElementById('svg');
+const NS = "http://www.w3.org/2000/svg";
+let A = [1.5,0,0.5,1];
+let phase = 0; // 0:identity 1:A 2:A*Ainv=E
+let anim = null;
+
+function mk(tag, attrs, parent){
+  const e = document.createElementNS(NS, tag);
+  for(const k in attrs) e.setAttribute(k, attrs[k]);
+  (parent||svg).appendChild(e);
+  return e;
+}
+function T(M,x,y){ return [M[0]*x+M[2]*y, M[1]*x+M[3]*y]; }
+
+// 背景
+for(let i=-3;i<=3;i++){
+  mk('line',{x1:i*S,y1:-3*S,x2:i*S,y2:3*S,stroke:'#1b2230','stroke-width':1});
+  mk('line',{x1:-4*S,y1:i*S,x2:4*S,y2:i*S,stroke:'#1b2230','stroke-width':1});
+}
+mk('line',{x1:-160,y1:0,x2:160,y2:0,stroke:'#3a4658','stroke-width':1.5});
+mk('line',{x1:0,y1:-120,x2:0,y2:120,stroke:'#3a4658','stroke-width':1.5});
+
+const gridG = mk('g',{});
+const lines = [];
+for(let i=-3;i<=3;i++){
+  lines.push([mk('line',{stroke:'#2b3a55','stroke-width':1},gridG), mk('line',{stroke:'#2b3a55','stroke-width':1},gridG)]);
+}
+const e1g = mk('g',{}); const e2g = mk('g',{});
+function mkArrow(g, color){
+  g._line = mk('line',{stroke:color,'stroke-width':3.5,'stroke-linecap':'round'},g);
+  g._head = mk('polygon',{fill:color},g);
+}
+mkArrow(e1g,'#f0a35e'); mkArrow(e2g,'#6cb6ff');
+function setArrow(g,x1,y1,x2,y2){
+  g._line.setAttribute('x1',x1);g._line.setAttribute('y1',y1);
+  g._line.setAttribute('x2',x2);g._line.setAttribute('y2',y2);
+  const ang=Math.atan2(y2-y1,x2-x1),s=9;
+  g._head.setAttribute('points',`${x2},${y2} ${x2-s*Math.cos(ang-0.42)},${y2-s*Math.sin(ang-0.42)} ${x2-s*Math.cos(ang+0.42)},${y2-s*Math.sin(ang+0.42)}`);
+}
+const tag = mk('text',{x:-160,y:-112,'font-size':12,fill:'#9aa5b5'});
+
+const fmt = x => (Math.round(x*100)/100).toString();
+
+function lerp(M1, M2, t){
+  return [M1[0]+(M2[0]-M1[0])*t, M1[1]+(M2[1]-M1[1])*t,
+          M1[2]+(M2[2]-M1[2])*t, M1[3]+(M2[3]-M1[3])*t];
+}
+function mul(M,N){ return [M[0]*N[0]+M[2]*N[1], M[1]*N[0]+M[3]*N[1], M[0]*N[2]+M[2]*N[3], M[1]*N[2]+M[3]*N[3]]; }
+function inv(M){
+  const d = M[0]*M[3]-M[1]*M[2];
+  return [M[3]/d, -M[1]/d, -M[2]/d, M[0]/d];
+}
+function draw(M, label){
+  for(let i=-3;i<=3;i++){
+    let [x1,y1]=T(M,-3,i), [x2,y2]=T(M,3,i);
+    lines[i+3][0].setAttribute('x1',x1*S);lines[i+3][0].setAttribute('y1',-y1*S);
+    lines[i+3][0].setAttribute('x2',x2*S);lines[i+3][0].setAttribute('y2',-y2*S);
+    [x1,y1]=T(M,i,-3); [x2,y2]=T(M,i,3);
+    lines[i+3][1].setAttribute('x1',x1*S);lines[i+3][1].setAttribute('y1',-y1*S);
+    lines[i+3][1].setAttribute('x2',x2*S);lines[i+3][1].setAttribute('y2',-y2*S);
+  }
+  let [ux,uy]=T(M,1,0), [vx,vy]=T(M,0,1);
+  setArrow(e1g,0,0,ux*S,-uy*S);
+  setArrow(e2g,0,0,vx*S,-vy*S);
+  tag.textContent = label;
+}
+function updateText(){
+  const [a,b,c,d]=A;
+  document.getElementById('va').textContent=fmt(a);
+  document.getElementById('vb').textContent=fmt(b);
+  document.getElementById('vc').textContent=fmt(c);
+  document.getElementById('vd').textContent=fmt(d);
+  const det=a*d-b*c;
+  document.getElementById('detv').textContent=fmt(det);
+  document.getElementById('detinv').textContent = Math.abs(det)<1e-9 ? "不存在" : fmt(1/det);
+  const msg=document.getElementById('msg');
+  if(Math.abs(det)<1e-9){
+    msg.innerHTML='det A = 0：网格被压成一条线，<em>信息丢失，无法撤销</em>——A 不可逆，不存在 A⁻¹。';
+  }else{
+    msg.innerHTML='橙向量是 e₁ 的像，蓝向量是 e₂ 的像；平行四边形面积 = |det A|。播放动画看 A 与 A⁻¹ 相继作用后回到原位。';
+  }
+}
+['sa','sb','sc','sd'].forEach((id,i)=>{
+  document.getElementById(id).addEventListener('input',e=>{
+    A[i]=parseFloat(e.target.value); phase=0; draw([1,0,0,1],"状态：单位网格（未变换）"); updateText();
+  });
+});
+document.getElementById('reset').onclick=()=>{
+  A=[1.5,0,0.5,1];phase=0;draw([1,0,0,1],"状态：单位网格（未变换）");updateText();
+};
+document.getElementById('playBtn').onclick=function(){
+  if(anim){cancelAnimationFrame(anim);anim=null;this.textContent='▶ 播放：A 然后 A⁻¹';return;}
+  const det=A[0]*A[3]-A[1]*A[2];
+  if(Math.abs(det)<1e-9){document.getElementById('msg').innerHTML='det A = 0，<em>A 不可逆</em>，没有可以播放的「撤销」。请调节滑块使 det ≠ 0。';return;}
+  this.textContent='⏸ 停止';
+  const Ai=inv(A);
+  const t0=performance.now();
+  const seq=[
+    {to:A, label:"阶段 1/2：施加 A（左乘 A）", dur:1600},
+    {to:[1,0,0,1], label:"阶段 2/2：再施加 A⁻¹（左乘 A⁻¹）⇒ 回到 E", dur:1600}
+  ];
+  let cur=[1,0,0,1], si=0, st=t0;
+  (function step(t){
+    let done=false;
+    while(si<seq.length && t-st>=seq[si].dur){
+      cur=seq[si].to; st+=seq[si].dur; si++;
+      done=true;
+    }
+    if(si>=seq.length){
+      draw(cur,"完成：A⁻¹A = E，网格复原");
+      anim=null;document.getElementById('playBtn').textContent='▶ 播放：A 然后 A⁻¹';
+      return;
+    }
+    const k=Math.min(1,(t-st)/seq[si].dur);
+    const e=k<0.5?2*k*k:1-Math.pow(-2*k+2,2)/2;
+    draw(lerp(cur,seq[si].to,e), seq[si].label);
+    anim=requestAnimationFrame(step);
+  })(t0);
+};
+draw([1,0,0,1],"状态：单位网格（未变换）");
+updateText();
+</script>
+</body>
+</html>
