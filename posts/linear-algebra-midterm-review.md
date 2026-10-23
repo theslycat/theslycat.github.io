@@ -9,6 +9,7 @@ description: 依据 9 个课件（445 页）整理的期中复习手册：矩阵
 > 所有需要动脑的结论都配了**几何直观**：点击文中 🎬 链接打开交互式动画（`assets/linear-algebra/animations/` 目录），或查看静态演示图（`assets/linear-algebra/figures/` 目录）。
 > 所有数值答案均经 sympy 精确计算复核，标注 ✅。
 > 📎 时间紧的话先看浓缩版：[期中复习速记笔记](/posts/linear-algebra-midterm-notes/) —— 习题答案、定理与易错点一页查。
+> 📎 另一门主课的整理：[高等数学课堂习题分类整理与知识点讲解](/posts/advanced-math-midterm-review/) —— 35 道课堂习题按 12 个知识点分类，技巧题附「思路与数学思想」深讲。
 
 ---
 

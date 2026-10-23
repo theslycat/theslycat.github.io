@@ -7,6 +7,15 @@
     <language>zh-CN</language>
     <atom:link href="https://theslycat.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <item>
+      <title>高等数学（上）课堂习题分类整理与知识点讲解</title>
+      <link>https://theslycat.github.io/posts/advanced-math-midterm-review/</link>
+      <guid isPermaLink="true">https://theslycat.github.io/posts/advanced-math-midterm-review/</guid>
+      <pubDate>Fri, 23 Oct 2026 00:00:00 GMT</pubDate>
+      <category>课堂笔记</category>
+      <category>高等数学</category>
+      <description>依据 12 份课件（551 页）整理的期中复习资料：35 道课堂习题按 12 个知识点分门别类，每类配一张讲解卡片；技巧性、构造类题目附「思路与数学思想」深讲，全部题目经课件原页核对。</description>
+    </item>
+    <item>
       <title>线性代数期中复习 · 速记笔记</title>
       <link>https://theslycat.github.io/posts/linear-algebra-midterm-notes/</link>
       <guid isPermaLink="true">https://theslycat.github.io/posts/linear-algebra-midterm-notes/</guid>
