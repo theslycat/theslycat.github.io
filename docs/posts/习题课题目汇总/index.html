@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>高数习题课题目汇总 · HAPPYsalt</title>
+<meta name="description" content="高数习题课题目汇总 来源： Advanced_Mathematics/Practices/第一章习题课.pdf （35 页）、 第二章习题课.pdf （50 页） 提取方式：pdftotext 文本提取 + 公式人工还原（LaTeX）。 说明：两本 PDF 每章前有「内容总结」知">
+<meta property="og:title" content="高数习题课题目汇总 · HAPPYsalt">
+<meta property="og:description" content="高数习题课题目汇总 来源： Advanced_Mathematics/Practices/第一章习题课.pdf （35 页）、 第二章习题课.pdf （50 页） 提取方式：pdftotext 文本提取 + 公式人工还原（LaTeX）。 说明：两本 PDF 每章前有「内容总结」知">
+<meta property="og:type" content="website">
+<link rel="icon" href="/avatar.svg">
+<link rel="alternate" type="application/rss+xml" title="HAPPYsalt" href="/feed.xml">
+<link rel="stylesheet" href="/style.css">
+
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="/">
+      <img src="/avatar.svg" alt="avatar" width="44" height="44">
+      <span class="brand-text">
+        <span class="brand-title">HAPPYsalt</span>
+        <span class="brand-tagline">学习 运动 生活</span>
+      </span>
+    </a>
+    <nav class="nav">
+        <a href="/">BLOG</a>
+        <a href="/archive/">ARCHIVE</a>
+        <a href="/tags/">TAGS</a>
+        <a href="/about/">ABOUT</a>
+        <a href="/feed.xml">RSS</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+<article>
+  <header class="article-header">
+    <h1 class="article-title">高数习题课题目汇总</h1>
+    <div class="article-meta">
+      <time datetime="2026-10-26">2026-10-26</time>
+      <span>·</span><span>11 MIN READ</span>
+      
+    </div>
+  </header>
+  <div class="prose"><h1>高数习题课题目汇总</h1>
+<blockquote>
+<p>来源：<code>Advanced_Mathematics/Practices/第一章习题课.pdf</code>（35 页）、<code>第二章习题课.pdf</code>（50 页）
+提取方式：pdftotext 文本提取 + 公式人工还原（LaTeX）。
+说明：两本 PDF 每章前有「内容总结」知识点回顾，非题目，此处略去；仅提取<strong>例题</strong>与<strong>练习题</strong>。
+标注「<em>原题公式文本提取有歧义，以原 PDF 为准</em>」的少数题，因 PDF 公式以图片/特殊字体嵌入，纯文本提取不全。</p>
+</blockquote>
+<hr>
+<h2>第一章 映射与函数（极限与连续）</h2>
+<h3>一、例题（例 1–例 13，含解答要点）</h3>
+<p><strong>例 1</strong> 用数列极限的定义证明：
+$$\lim_{n\to\infty}\frac{10^n}{n!}=0$$</p>
+<p><strong>例 2</strong> 求下列数列的极限</p>
+<ol>
+<li>$\displaystyle\lim_{n\to\infty}\frac{a^{n}-a^{-n}}{a^{n+1}-a^{-(n+1)}}\quad(a\neq0,\ |a|\neq1)$<br>
+解：$|a|&lt;1$ 时分子分母同除以 $a^{-n}$，得 $a$；$|a|&gt;1$ 时同除以 $a^n$，得 $\dfrac1a$。</li>
+<li>$\displaystyle\lim_{n\to\infty}\frac{n^{\frac32}\cdot2!\left(1-\cos\frac{2}{n}\right)^3}{\sqrt{n^2+1}-n}$（<em>原题公式文本提取有歧义，以原 PDF 为准</em>），答案 $=1$。</li>
+<li>$\displaystyle\lim_{n\to\infty}n(\sqrt[n]{a}-1)=\ln a$。</li>
+</ol>
+<p><strong>例 3</strong> 求下列函数的极限</p>
+<ol>
+<li>$\displaystyle\lim_{x\to0}\frac{\sin(\sin(\sin(\sin x)))}{\tan(\tan(\tan x))}=1$</li>
+<li>$\displaystyle\lim_{x\to+\infty}\left(\frac{a^x+b^x}{2}\right)^{1/x}=\sqrt{ab}\quad(a,b&gt;0)$</li>
+<li>设 $a_n=\cos\frac{x}{2}\cos\frac{x}{2^2}\cdots\cos\frac{x}{2^n}\ (x\neq0)$，求 $\displaystyle\lim_{n\to\infty}a_n=\frac{\sin x}{x}$</li>
+</ol>
+<p><strong>例 4</strong> 求下列极限</p>
+<ol>
+<li>$\displaystyle\lim_{n\to\infty}\left(\frac{n+1}{n}\right)^{(-1)^n}=1$</li>
+<li>$\displaystyle\lim_{x\to0}\left[\frac{2+e^{1/x}}{1+e^{4/x}}+\frac{\sin x}{|x|}\right]=1$（<em>分母指数以原 PDF 为准</em>，经典结论为 $e^{4/x}$）</li>
+<li>$\displaystyle\lim_{x\to0}\frac1{x^3}\left[\left(\frac{2+\cos x}{3}\right)^x-1\right]=-\frac16$</li>
+<li>$\displaystyle\lim_{x\to0}\frac{\ln(\sin^2x+e^x)-x}{\ln(x^2+e^{2x})-2x}=1$</li>
+</ol>
+<p><strong>例 5</strong> 设 $0&lt;x_1&lt;3,\ x_{n+1}=x_n(3-x_n)\ (n=1,2,\dots)$，证明 ${x_n}$ 极限存在并求之。<br>
+解：由均值不等式得 $0&lt;x_n\le\frac32$（有界）；又 $x_{n+1}-x_n=x_n(3-2x_n)\ge0$（单调增）；极限 $a=\frac32$。</p>
+<p><strong>例 6</strong> 设当 $x\to0$ 时，$(1-\cos x)\ln(1+x^2)$ 是比 $x\sin x^n$ 高阶的无穷小，而 $x\sin x^n$ 是比 $e^{x^2}-1$ 高阶的无穷小，求正整数 $n$。<br>
+解：$n=2$。</p>
+<p><strong>例 7</strong> 确定常数 $a,b$ 使 $\displaystyle\lim_{x\to+\infty}\big[(ax+b)e^{1/x}-x\big]=2$。<br>
+解：$a=b=1$。</p>
+<p><strong>例 8</strong> 已知 $\displaystyle\lim_{x\to0}\left(1+x+\frac{f(x)}{x}\right)^{1/x}=e^3$，求 $\displaystyle\lim_{x\to0}\frac{f(x)}{x^2}$。<br>
+解：$=2$。</p>
+<p><strong>例 9</strong> 设 $f(x)$ 在 $x=1$ 的某邻域连续，且
+$$\lim_{x\to0}\frac{\ln[f(x+1)+1+3\sin^2x]}{\sqrt{1-x^2}-1}=-4,$$
+求 $\displaystyle\lim_{x\to0}\frac{f(x+1)}{x^2}$。<br>
+解：$=-1$。</p>
+<p><strong>例 10</strong> 设 $x_1&gt;-2,\ x_{n+1}=\sqrt{x_n+2}$。<br>
+(1) 证明 $x_{n+1}-2\le\frac12(x_n-2)$；(2) 求 $\displaystyle\lim_{n\to\infty}x_n$。<br>
+解：$=2$。</p>
+<p><strong>例 11</strong> 设 $\displaystyle f(x)=\frac{e^x-b}{(x-a)(x-1)}$，其中 $x=0$ 为无穷间断点，$x=1$ 为可去间断点，求 $a,b$。<br>
+解：$a=0,\ b=e$。</p>
+<p><strong>例 13</strong> 设
+$$f(x)=\begin{cases}x,&amp;x&lt;1\a,&amp;x\ge1\end{cases},\qquad \varphi(x)=\begin{cases}b,&amp;x\le0\x+1,&amp;x&gt;0\end{cases}$$
+求 $a,b$ 使 $f(x)+\varphi(x)$ 在 $(-\infty,+\infty)$ 上连续。<br>
+解：$a=b=1$。</p>
+<h3>二、练习题（选择题，原 PDF 未附解答）</h3>
+<p><strong>练 1</strong> 设 $\displaystyle\lim_{x\to0}\frac{(\cos x-b)\sin x}{e^x-a}=3$，求 $a,b$ 的值。</p>
+<ul>
+<li>A. $a=-1,\ b=2$</li>
+<li>B. $a=1,\ b=-2$</li>
+<li>C. $a=-2,\ b=1$</li>
+<li>D. $a=2,\ b=-1$</li>
+</ul>
+<p><strong>练 2</strong> 设 $f(x)$ 在 $(-\infty,+\infty)$ 内有定义，且 $\displaystyle\lim_{x\to\infty}f(x)=a$，
+$$g(x)=\begin{cases}f(1/x),&amp;x\neq0\0,&amp;x=0\end{cases}$$
+则（ ）。</p>
+<ul>
+<li>A. $x=0$ 必是 $g(x)$ 的第一类间断点</li>
+<li>B. $x=0$ 必是 $g(x)$ 的第二类间断点</li>
+<li>C. $x=0$ 必是 $g(x)$ 的连续点</li>
+<li>D. $g(x)$ 在 $x=0$ 处的连续性与 $a$ 的取值有关</li>
+</ul>
+<hr>
+<h2>第二章 导数与微分</h2>
+<h3>一、例题（例 1–例 27，含解答要点）</h3>
+<p><strong>例 1</strong> 设 $f(x)$ 满足 $f(2)=0$，且 $\displaystyle\lim_{x\to2}\frac{f(x)}{x-2}=1$，则下列结论错误的是（ D ）。<br>
+A. $f(x)$ 在点 $x=2$ 连续　B. $f(x)$ 在点 $x=2$ 的一个邻域内有界<br>
+C. $f(x)$ 在点 $x=2$ 可导　D. $f(x)$ 在点 $x=2$ 的一个邻域内连续</p>
+<p><strong>例 2</strong> 设函数 $f(x)$ 在点 $a$ 的某邻域内有定义，则 $f'(a)$ 存在的充分条件是（ C ）。<br>
+A. $\displaystyle\lim_{t\to0}\frac{f(a+t)-f(a-t)}{2t}$ 存在<br>
+B. $\displaystyle\lim_{t\to0}\frac{f(a+2t)-f(a+t)}{t}$ 存在<br>
+C. $\displaystyle\lim_{t\to0}\frac{f(a)-f(a-t)}{t}$ 存在<br>
+D. $\displaystyle\lim_{t\to+\infty}t!\left[f!\left(a+\frac1t\right)-f(a)\right]$ 存在</p>
+<p><strong>例 3</strong> 设曲线 $y=f(x)$ 和 $y=x^2-x$ 在点 $(1,0)$ 处相切，求 $\displaystyle\lim_{n\to\infty}nf!\left(\frac{n}{n+2}\right)$。<br>
+解：$=-2$。</p>
+<p><strong>例 4</strong> 设 $f(x)=x(x-1)(x-2)\cdots(x-999)$，则 $f'(0)=-999!$。</p>
+<p><strong>例 5</strong> 设函数 $f(x)$ 在 $x=0$ 处连续，且 $\displaystyle\lim_{h\to0}\frac{f(h^2)}{h^2}=1$，则（ C ）。<br>
+A. $f(0)=0$ 且 $f'<em>-(0)$ 存在　B. $f(0)=1$ 且 $f'</em>-(0)$ 存在<br>
+C. $f(0)=0$ 且 $f'<em>+(0)$ 存在　D. $f(0)=1$ 且 $f'</em>+(0)$ 存在</p>
+<p><strong>例 6</strong> 设函数 $f(x)$ 连续，且 $f'(0)&gt;0$，则存在 $\delta&gt;0$，使得（ C ）。<br>
+A. $f(x)$ 在 $(0,\delta)$ 内单调增加　C. 对任意 $x\in(0,\delta)$ 有 $f(x)&gt;f(0)$<br>
+B. $f(x)$ 在 $(-\delta,0)$ 内单调减少　D. 对任意 $x\in(-\delta,0)$ 有 $f(x)&gt;f(0)$</p>
+<p><strong>例 7</strong> 设函数 $y=f(x)$ 在点 $x$ 可微，且 $f'(x)\neq0$。当 $\Delta x\to0$ 时，不正确的是（ A ）。<br>
+A. $dy$ 是比 $\Delta x$ 高阶的无穷小<br>
+B. $\Delta y-dy$ 是比 $\Delta x$ 高阶的无穷小<br>
+C. $\Delta y-dy$ 是比 $dy$ 高阶的无穷小<br>
+D. $\Delta y$ 与 $dy$ 是等价无穷小</p>
+<p><strong>例 8</strong> 设 $f(x)$ 在 $(-\infty,+\infty)$ 内有定义，对任意 $x$ 都有 $f(x+1)=2f(x)$，且当 $0\le x\le1$ 时 $f(x)=x(1-x^2)$，试判断 $f(x)$ 在 $x=0$ 处是否可导。<br>
+解：不可导（$f'<em>-(0)=-1,\ f'</em>+(0)=1$）。</p>
+<p><strong>例 9</strong> 若可导函数 $y=f(x)$ 的反函数为 $x=g(y)$，且 $f(1)=2022,\ f'(1)=2$，则 $g'(2022)=\dfrac12$。</p>
+<p><strong>例 10</strong> 设 $y=f(x)$ 二阶可导，$f'(x)\neq0$，$f(0)=1,\ f'(0)=15,\ f''(0)=-2$，$y=f(x)$ 的反函数为 $x=\varphi(y)$，求
+$$\frac{\varphi''(1)}{\big[1+\varphi'^2(1)\big]^{3/2}}.$$
+解：$=\dfrac1{15}$（反函数曲率公式）。</p>
+<p><strong>例 11</strong> 设
+$$f(x)=\begin{cases}\ln(1+x),&amp;x&gt;0\0,&amp;x=0\\dfrac{\sin2x}{x},&amp;x&lt;0\end{cases}$$
+求 $f'(x)$。<br>
+解：$f'(0)=1$；
+$$f'(x)=\begin{cases}\dfrac1{1+x},&amp;x&gt;0\[4pt]\dfrac{2x\cos2x-\sin2x}{2x^2},&amp;x&lt;0\1,&amp;x=0\end{cases}$$</p>
+<p><strong>例 12</strong> 已知 $\displaystyle\lim_{\Delta x\to0}\frac{f(x+2\Delta x)-f(x)}{\Delta x}=x^2+2x\ (x&gt;0)$，则
+$$d!\left[f!\left(\frac1x\right)\right]=\frac{-1+2x}{2x^3},dx.$$</p>
+<p><strong>例 13</strong> 设 $f(x)$ 在 $x=a$ 处可导，且 $f(a)\neq0$，求
+$$\lim_{n\to\infty}\left[\frac{f(a+1/n)}{f(a)}\right]^n.$$
+解：$=e^{f'(a)/f(a)}$。</p>
+<p><strong>例 14</strong> 对任意 $x,y&gt;0$ 有 $f(xy)=f(x)+f(y)$ 且 $f'(1)=1$，证明 $f(x)$ 在 $(0,+\infty)$ 内可导并求出 $f(x)$。<br>
+解：$f(x)=\ln x$。</p>
+<p><strong>例 15</strong> 设
+$$f(x)=\lim_{n\to\infty}\frac{x^2e^{n(x-1)}+ax+b}{e^{n(x-1)}+1},$$
+试确定常数 $a,b$ 使 $f(x)$ 处处可导，并求 $f'(x)$。<br>
+解：$a=2,\ b=-1$；
+$$f'(x)=\begin{cases}2,&amp;x\le1\2x,&amp;x&gt;1\end{cases}$$</p>
+<p><strong>例 16</strong> 设
+$$f(x)=\begin{cases}ax^2+bx+c,&amp;x&gt;0\g(x),&amp;x\le0\end{cases}$$
+怎样选择 $a,b,c$（用 $g$ 在 $x=0$ 处的值与导数表示）可使 $f(x)$ 在 $x=0$ 处有二阶导数。<br>
+解：$c=g(0),\ b=g'<em>-(0),\ a=\dfrac12g''</em>-(0)$。</p>
+<p><strong>例 17</strong> 设 $y=e^{\sin x}\sin(e^x)$，求 $dy$。<br>
+解：$dy=e^{\sin x}(\cos x\sin e^x+e^x\cos e^x),dx$。</p>
+<p><strong>例 18</strong> 设 $y=x^{x^x}\ (x&gt;0)$，求 $y'$。<br>
+解：$y'=x^{x^x}\cdot x^x\left(\ln^2x+\ln x+\dfrac1x\right)$。</p>
+<p><strong>例 19</strong> 求下列导数</p>
+<ol>
+<li><em>原题公式文本提取有歧义，以原 PDF 为准</em>。据解析反推
+$$y=\frac{(x-3)\sqrt{1-x},\sin x}{e^{2x-1}(\arcsin x)^3},$$
+则 $\displaystyle\frac{y'}{y}=\frac1{x-3}-\frac1{2(1-x)}+\cot x-2-\frac3{\arcsin x\sqrt{1-x^2}}$。</li>
+<li>$y=f[x\varphi(x)]$，$f,\varphi$ 二阶可导，求 $y''$。</li>
+<li>$xe^{f(y)}=e^y$，$f$ 可导且 $f'(y)\neq1$，求 $dy$。<br>
+解：$dy=\dfrac{1}{x(1-f'(y))},dx$。</li>
+</ol>
+<p><strong>例 20</strong> 已知在任意点 $x$ 处 $\Delta y=\dfrac{\Delta x}{1+x^2}+\alpha$，且 $\displaystyle\lim_{\Delta x\to0}\frac{\alpha}{\Delta x}=0$，又 $f(0)=0$，求 $f(1)$。<br>
+解：$f(x)=\arctan x,\ f(1)=\dfrac\pi4$。</p>
+<p><strong>例 21</strong> 设 $f(x)=|x-a|\varphi(x)$，$\varphi(x)$ 在 $x=a$ 处连续，且 $\varphi(a)\neq0$，讨论 $f(x)$ 在 $x=a$ 处是否可导。<br>
+解：不可导（左右导数分别为 $-\varphi(a),\ \varphi(a)$）。</p>
+<p><strong>例 22</strong> 设 $f(x)$ 可导且导函数连续，$F(x)=f(x^2)$，求 $F'(x)$。<br>
+解：
+$$F'(x)=\begin{cases}-2xf'(-x^2),&amp;x&lt;0\0,&amp;x=0\2xf'(x^2),&amp;x&gt;0\end{cases}$$</p>
+<p><strong>例 23</strong> 设函数 $y=y(x)$ 由
+$$\begin{cases}xe^t+t\cos x=\pi\ y=\sin t+\cos t\end{cases}$$
+确定，求 $\displaystyle\frac{dy}{dx}\bigg|_{x=0}$。<br>
+解：$=e^\pi$。</p>
+<p><strong>例 24</strong> 落在平静水面上的石头产生同心波纹，若最外一圈波纹半径的增大率总是 $6\ \text{m/s}$，问在 $2$ 秒末扰动水面面积的增大率多少？<br>
+解：$S=\pi r^2\Rightarrow \dfrac{dS}{dt}=2\pi r\dfrac{dr}{dt}$，代入 $t=2$ 得 $144\pi\ \text{m}^2/\text{s}$。</p>
+<p><strong>例 25</strong> 已知 $\displaystyle f(t)=\lim_{x\to\infty}t\left(\frac{x-t}{x+t}\right)^x$，求 $f^{(n)}(t)$。<br>
+解：$f(t)=te^{-2t}$，$f^{(n)}(t)=(-2)^{n-1}(n-2t)e^{-2t}$。</p>
+<p><strong>例 26</strong> 设 $f(x)$ 具有二阶连续导数，且 $\displaystyle\lim_{x\to0}\frac{f''(x)}{x^2}=1$。证明：<br>
+(1) $f''(0)=0$；(2) 存在常数 $\delta$，使得当 $0&lt;|x|&lt;\delta$ 时，有 $f''(x)&gt;0$。<br>
+（<em>原 PDF 文本另含 &quot;$f'(0)=0$&quot;，疑为笔误或条件冗余，按主流题型取 $\lim_{x\to0}f''(x)/x^2=1$</em>）</p>
+<p><strong>例 27</strong> 设函数 $f(x)$ 在点 $x=0$ 的某个邻域内具有二阶导数，且
+$$\lim_{x\to0}\frac{2\sin x+xf(x)}{x^3}=0,$$
+求 $f(0),f'(0)$。<br>
+解：$f(0)=-2,\ f'(0)=0$。</p>
+<h3>二、练习题</h3>
+<p><strong>练习题 1</strong>（选择题）设 $f(x)$ 在点 $x=2$ 处连续，且 $\displaystyle\lim_{x\to1}\frac{2f(3-x)-3}{x-1}=-1$，求曲线 $y=f(x)$ 在点 $(2,f(2))$ 处的切线方程。</p>
+<ul>
+<li>A. $y=-\dfrac12x+\dfrac12$</li>
+<li>B. $y=\dfrac12x+\dfrac12$</li>
+<li>C. $y=-\dfrac12x-\dfrac12$</li>
+<li>D. $y=\dfrac12x-\dfrac12$</li>
+</ul>
+<p>解：由极限性质得 $f(2)=\dfrac32$，再由导数定义得 $f'(2)=\dfrac12$，切线 $y=\dfrac12x+\dfrac12$，选 <strong>B</strong>。</p>
+<p><strong>练 2</strong>（选择题）设 $f(x)=|x-1|^3\varphi(x)$，其中 $\varphi(x)$ 在点 $x=1$ 处连续，则 $\varphi(1)=0$ 是 $f(x)$ 在 $x=1$ 处可导的（ A ）。<br>
+A. 充分必要条件　B. 充分但非必要条件　C. 必要但非充分条件　D. 既非必要又非充分条件</p>
+<p><strong>练 3</strong>（原题部分文字缺失，据解析还原）已知 $f(x)$ 是周期为 $5$ 的连续函数，它在 $x=0$ 的某个邻域内满足关系
+$$f(1+\sin x)-3f(1-\sin x)=8x+\alpha(x),$$
+其中 $\alpha(x)$ 是当 $x\to0$ 时比 $x$ 高阶的无穷小，且 $f(x)$ 在 $x=1$ 处可导，求曲线 $y=f(x)$ 在 $(6,f(6))$ 处的切线方程。<br>
+解：令 $x\to0$ 得 $f(1)=0$；等式两边除以 $x$ 取极限得 $f'(1)=2$；由周期性 $f(6)=f(1)=0,\ f'(6)=f'(1)=2$；故切线 $y=2(x-6)$。</p>
+<p><strong>练 4</strong>（原题部分文字缺失，据解析还原）设 $y=\sin x\cos x\cos2x$，求 $y^{(n)}$。<br>
+解：$y=\dfrac14\sin4x$，故
+$$y^{(n)}=4^{,n-1}\sin!\left(4x+\frac{n\pi}{2}\right).$$</p>
+<p><strong>末尾单选题</strong> 设方程 $\cos(xy)+\ln y-x=1$ 确定函数 $y=f(x)$，则 $\displaystyle\lim_{n\to\infty}n!\left[f!\left(\frac2n\right)-1\right]=$（ A ）。</p>
+<ul>
+<li>A. $2$</li>
+<li>B. $1$</li>
+<li>C. $-1$</li>
+<li>D. 不存在</li>
+</ul>
+<hr>
+<p><em>注：公式中凡以 <code>$...$</code> 包裹者可用支持 LaTeX 的 Markdown 预览器（如 VS Code、Typora、或你的博客 <a href="http://theslycat.github.io" target="_blank" rel="noopener noreferrer">theslycat.github.io</a>）渲染。如需把这份汇总发布到博客或转 PDF，告诉我即可。</em></p>
+</div>
+  <div class="post-nav">
+    <a href="/posts/advanced-math-midterm-review/">← 高等数学（上）课堂习题分类整理与知识点讲解</a>
+  </div>
+  <p style="margin-top:2rem"><a class="btn" href="/archive/">← 回到归档</a></p>
+</article>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <span>&copy; 2026 乐延</span>
+    <span>markdown &rarr; html &middot; git push &rarr; live</span>
+  </div>
+</footer>
+</body>
+</html>

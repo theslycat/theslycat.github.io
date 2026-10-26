@@ -7,6 +7,14 @@
     <language>zh-CN</language>
     <atom:link href="https://theslycat.github.io/feed.xml" rel="self" type="application/rss+xml"/>
     <item>
+      <title>高数习题课题目汇总</title>
+      <link>https://theslycat.github.io/posts/%E4%B9%A0%E9%A2%98%E8%AF%BE%E9%A2%98%E7%9B%AE%E6%B1%87%E6%80%BB/</link>
+      <guid isPermaLink="true">https://theslycat.github.io/posts/%E4%B9%A0%E9%A2%98%E8%AF%BE%E9%A2%98%E7%9B%AE%E6%B1%87%E6%80%BB/</guid>
+      <pubDate>Mon, 26 Oct 2026 00:00:00 GMT</pubDate>
+      
+      <description>高数习题课题目汇总 来源： Advanced_Mathematics/Practices/第一章习题课.pdf （35 页）、 第二章习题课.pdf （50 页） 提取方式：pdftotext 文本提取 + 公式人工还原（LaTeX）。 说明：两本 PDF 每章前有「内容总结」知</description>
+    </item>
+    <item>
       <title>高等数学（上）课堂习题分类整理与知识点讲解</title>
       <link>https://theslycat.github.io/posts/advanced-math-midterm-review/</link>
       <guid isPermaLink="true">https://theslycat.github.io/posts/advanced-math-midterm-review/</guid>
